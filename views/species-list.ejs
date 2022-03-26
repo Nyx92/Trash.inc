@@ -1,0 +1,44 @@
+<%- include('nav'); -%>
+
+<div class="d-flex justify-content-center">
+  <div class="container-list mt-5 mb-5">
+    <% for (let i =0; i < species.length; i++ ) { %>
+    <div class="mini-container">
+      <!-- this link should lead us to all mentions of specified species -->
+      <a class="species-links" href="/species/<%= species[i].id %>">
+        Species Name: <%= species[i].name%> Scientific Name: <%=
+        species[i].scientific_name%>
+      </a>
+      <!-- Creating a delete button link for each row -->
+      <!-- what this does is that it will go into this link -->
+      <form action="/<%= i %>?_method=DELETE" method="POST">
+        <input
+          class="btn btn-delete btn-info active"
+          type="submit"
+          value="Delete"
+        />
+      </form>
+      <!-- Creating an edit button link for each row -->
+      <a
+        href="species/<%= species[i].id %>/edit"
+        class="btn btn-edit btn-info active"
+        role="button"
+        aria-pressed="true"
+        >Edit</a
+      >
+      <!-- Creating an fav button link for each row -->
+      <!-- setting a query for favourite buttons: note const X = request.query.index -->
+      <!-- This takes the index of the item in the sightings array of obhects -->
+      <a
+        href="fav/?index=<%= species[i].id %>"
+        class="btn btn-fav btn-info active"
+        role="button"
+        aria-pressed="true"
+        >Add Fav</a
+      >
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('footer'); -%>

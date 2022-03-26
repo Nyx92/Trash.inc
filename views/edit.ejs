@@ -1,0 +1,25 @@
+<%- include('nav'); -%>
+
+      <form action="/edited/<%= sightings.id %>?_method=PUT" method="POST">
+        <!-- date-time -->
+        <label for="date">Date and time of your sighting:</label><br />
+        <input type="datetime-local" id="date" name="date" /><br />
+        <!-- Appearance -->
+        <label for="appearance">Appearance:</label><br />
+        <input type="text" id="appearance" name="appearance" /><br />
+        <!-- Appearance -->
+        <label for="behaviour">Behaviour:</label><br />
+        <input type="text" id="behaviour" name="behaviour" /><br />
+        <!-- Vocalisations -->
+        <label for="vocalisations">Vocalisations:</label><br />
+        <input type="text" id="vocalisations" name="vocalisations" /><br />
+        <!-- Flock Size -->
+        <label for="flock_size">Flock Size:</label><br />
+        <input type="number" id="flock_size" name="flock_size" /><br />
+        <input type="submit" value="Submit" />  
+      </form>
+    </div>
+  </body>
+</html>
+
+<%- include('footer'); -%>

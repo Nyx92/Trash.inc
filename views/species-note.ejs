@@ -1,0 +1,18 @@
+<%- include('nav'); -%>
+
+    <div class="d-flex justify-content-center mt-5 mb-5">
+      <form action="/species" method="POST">
+        <!-- species name -->
+        <label for="species">Species Name:</label><br />
+        <input type="text" id="species" name="species" /><br />
+        <!-- scientific name-->
+        <label for="scientific">Scientific Name:</label><br />
+        <input type="text" id="scientific" name="scientific" /><br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
+</html>
+
+
+<%- include('footer'); -%>

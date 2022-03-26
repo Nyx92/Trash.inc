@@ -1,0 +1,187 @@
+body {
+  background: white;
+  margin: 0px;
+}
+
+.navbar {
+  background-color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 69px;
+  display: flex;
+  justify-content: center;
+}
+
+.elements-in-nav {
+  height: 100%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.dropbtn {
+  cursor: pointer;
+  background-color: inherit;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  padding: 12px;
+}
+
+.menu-bar1,
+.menu-bar2,
+.menu-bar3 {
+  cursor: pointer;
+  width: 23px;
+  height: 3px;
+  background-color: black;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 4px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 69px;
+  z-index: 1;
+}
+
+.about,
+.enterprise,
+.user {
+  cursor: pointer;
+  height: 80px;
+  width: 250px;
+  font-size: 15px;
+  border-top-style: initial;
+  border-left-style: initial;
+  border-top-color: initial;
+  border-left-color: initial;
+  display: flex;
+  align-items: center;
+  padding-left: 55px;
+  background: white;
+  border-width: 0px 1px 1px 0px;
+  border-image: initial;
+  border-bottom: 1px solid rgb(246, 248, 250);
+  border-right: 1px solid rgb(246, 248, 250);
+}
+
+.company-logo {
+  max-height: 80%;
+  margin-left: 20px;
+}
+
+.navbar a {
+  font-size: 16px;
+  color: black;
+  text-align: center;
+  background-color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.login {
+  margin-left: auto;
+}
+
+.video-container {
+  height: 700px;
+  overflow: hidden;
+}
+
+.myvideo {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.video-text-box {
+  position: absolute;
+  top: 550px;
+  left: 0px;
+  font-size: 36px;
+  padding-left: max(78px, 48px);
+  color: white;
+}
+
+.banner-1 {
+  font-size: 20px;
+  color: white;
+  display: block;
+  padding: 30px 0px 30px max(78px, 48px);
+  background: rgb(12, 12, 59);
+  text-decoration: none;
+}
+
+.banner-2 {
+  font-size: 20px;
+  color: white;
+  display: block;
+  padding: 30px 0px 30px max(78px, 48px);
+  background: black;
+  text-decoration: none;
+}
+
+.content-container {
+  height: 1000px;
+  width: 100%;
+}
+
+.section-1 {
+  width: 60%;
+  height: 40%;
+  margin: auto;
+  border-bottom: solid grey;
+}
+
+.info {
+  padding-top: 80px;
+  padding-bottom: 50px;
+  width: 50%;
+}
+
+.recycle,
+.disposal,
+.re-sell {
+  color: white;
+  width: 200px;
+  border-radius: 25px;
+  background: black;
+  padding: 20px;
+}
+
+.first-panel-section-1,
+.first-panel-section-2 {
+  width: 60%;
+  height: 30%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid grey;
+  margin: auto;
+}
+
+.footer {
+  height: 400px;
+}
+
+.footer-wrapper {
+  display: flex;
+  background-color: rgb(234, 239, 242);
+  height: 300px;
+  justify-content: space-evenly;
+}
+
+.footer-final {
+  height: 100px;
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background: rgb(54, 58, 69);
+}

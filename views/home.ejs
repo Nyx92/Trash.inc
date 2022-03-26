@@ -1,0 +1,45 @@
+<%- include('nav'); -%>
+
+<div class="d-flex justify-content-center">
+  <div class="container-list mt-5 mb-5">
+    <% for (let i =0; i < sightings.length; i++ ) { %>
+    <div class="mini-container">
+      <a class="sightings-links" href="/home/<%= sightings[i].id %>">
+        Date: <%= sightings[i].date%> Appearance: <%= sightings[i].appearance%> 
+        Behaviour: <%= sightings[i].behaviour%> Vocalisations: <%=
+        sightings[i].vocalisations%> Flock size: <%= sightings[i].flock_size%> </br>
+        Created by user: <%= sightings[i].created_user%>
+      </a>
+      <!-- Creating a delete button link for each row -->
+      <!-- what this does is that it will go into this link -->
+      <form action="delete/<%= sightings[i].id %>?_method=DELETE" method="POST">
+        <input
+          class="btn btn-delete btn-info active"
+          type="submit"
+          value="Delete"
+        />
+      </form>
+      <!-- Creating an edit button link for each row -->
+      <a
+        href="edit/<%= sightings[i].id %>"
+        class="btn btn-edit btn-info active"
+        role="button"
+        aria-pressed="true"
+        >Edit</a
+      >
+      <!-- Creating an fav button link for each row -->
+      <!-- setting a query for favourite buttons: note const X = request.query.index -->
+      <!-- This takes the index of the item in the sightings array of obhects -->
+      <a
+        href="fav/?index=<%= sightings[i].index %>"
+        class="btn btn-fav btn-info active"
+        role="button"
+        aria-pressed="true"
+        >Add Fav</a
+      >
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('footer'); -%>

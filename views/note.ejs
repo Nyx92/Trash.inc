@@ -1,0 +1,40 @@
+<%- include('nav'); -%>
+
+    <div class="d-flex justify-content-center mt-5 mb-5">
+      <form action="/note" method="POST">
+        <!-- date-time -->
+        <label for="date">Date and time of your sighting:</label><br />
+        <input type="datetime-local" id="date" name="date" /><br />
+        <!-- Appearance -->
+        <label for="appearance">Appearance:</label><br />
+        <input type="text" id="appearance" name="appearance" /><br />
+        <!-- Vocalisations -->
+        <label for="vocalisations">Vocalisations:</label><br />
+        <input type="text" id="vocalisations" name="vocalisations" /><br />
+        <!-- Flock Size -->
+        <label for="flock_size">Flock Size:</label><br />
+        <input type="number" id="flock_size" name="flock_size" /><br />
+        <br>
+        <!-- note that keys take the name of 'name', in this case, species_id -->
+        <select name="species_id">
+          <% species.forEach((species) => { %>
+          <!-- species options -->
+          <option value="<%= species.id %>"><%= species.name %></option>
+          <% }); %>
+         </select>
+         <br>
+         <br>
+          <!-- behaviour checkboxes -->
+         <% behaviour.forEach((thiscanbeanything) => { %>
+          <label><%= thiscanbeanything.name %></label>
+           <input type="checkbox" name="behaviour" value="<%= thiscanbeanything.id %>" />
+           <% }); %>
+          <br>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
+</html>
+
+
+<%- include('footer'); -%>

@@ -1,0 +1,24 @@
+<%- include('nav'); -%>
+
+<div class="mt-5 mb-5">
+  <p>Date: <%= sightings.date %></p>
+  <p>Appearance: <%= sightings.appearance %></p>
+  <p>Behaviour: <%= sightings.behaviour %></p>
+  <p>Vocalisations: <%= sightings.vocalisations %></p>
+  <p>Flock Size: <%= sightings.flock_size %></p>
+  <p>Created by: <%= sightings.created_user %></p>
+</div>
+
+<% for (let i =0; i < comments.length; i++ ) { %>
+<div class="mt-5 mb-5">Comments: <%= comments[i].comments %></div>
+<% } %>
+
+<div class="d-flex justify-content-center mt-5 mb-5">
+  <form action="/note/<%=sightings.id%>/comment" method="POST">
+    <!-- comment -->
+    <label for="comment">Leave a comment!</label><br />
+    <input type="test" id="comment" name="comment" /><br />
+    <input type="submit" value="Submit" />
+    <%- include('footer'); -%>
+  </form>
+</div>
