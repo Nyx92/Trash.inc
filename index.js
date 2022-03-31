@@ -126,14 +126,14 @@ const isLoggedIn = (request) => (request.cookies.loggedIn);
 /**
   * Render the page to signup form
  */
-app.get('/signup', (request, response) => {
-  response.render('signup');
+app.get('/login-sign-up', (request, response) => {
+  response.render('login-sign-up');
 });
 
 /**
   * stores sign up data in table:accounts
  */
-app.post('/signup', (request, response) => {
+app.post('/login-sign-up', (request, response) => {
   const { email } = request.body;
   const { password } = request.body;
   const { username } = request.body;

@@ -1,0 +1,72 @@
+<%- include('nav'); -%>
+
+<div class="login-signup-page">
+
+<div class = "form-banner">
+  <p class = "form-banner-text" > Join Us</p>
+</div>
+
+  <!-- login page content -->
+  <div class = "login-page">
+
+    <!-- login brand content -->
+    <div class = "login-brand">
+      <h1>Trash.inc</h1>
+      <p>Trash.inc helps you to save the world, one trash a time!</p>
+    </div>
+    <!-- End of login brand content -->
+
+    <!-- login form container-->
+    <div class = "login-form-container">
+      <form action="/login" method="POST">
+        <label for="email"></label>
+        <input type="email" id="email" name="email" placeholder="Email*"/>
+        <label for="password"></label>
+        <input type="password" id="password" name="password" minlength="8" placeholder="Password*"/>
+        <input type="submit" value="Login" class ="login-button" />
+        <a class = "forgot-password" href="">Forgotten password?</a>
+        <button class="create-account-button">Create New Account</button>
+    <!-- End of login-form-container -->
+    </div>
+  <!-- End of login-page -->
+  </div>
+
+
+    <div class= "sign-up-form">
+      <div class = "sign-up-form-container">
+        <div class="close">+</div>
+      <div> <h1>CREATE YOUR ACCOUNT</h1> <p>We hope you can join our cause</p></div>
+      <form action="/sign-up" method="POST">
+        <p>Particulars</p>
+        <label for="name"></label>
+        <input type="text" id="name" name="name" placeholder="Name*"/>
+        <label for="mobile"></label>
+        <input type="tel" id="mobile" name="mobile" placeholder="Mobile*"/>
+        <label for="email"></label>
+        <input type="email" id="email" name="email" placeholder="Email*"/>
+        <p>Address</p>
+        <label for="street"></label>
+        <input type="text" id="street" name="street" placeholder="Street*"/>
+        <label for="block"></label>
+        <input type="number" id="block" name="block" placeholder="Block*"/>
+        <label for="unit"></label>
+        <input type="text" id="unit" name="unit" placeholder="Unit*"/>
+        <p>Login Details </p>
+        <label for="password"></label>
+        <input type="password" id="password" name="password" minlength="8" placeholder="Password*"/>
+        <input type="submit" value="Submit" />
+        <p>By proceeding, I agree to XXX's <a class = "terms-conditions" href="">Terms & Conditions.</a></p>
+      </form>
+      <!-- end of sign-up-form-container -->
+      </div>
+      <!-- end of sign-up-form -->
+    </div>
+
+    <!-- end of login-signup-page -->
+  </div>
+
+  </body>
+</html>
+
+
+<%- include('footer'); -%>
