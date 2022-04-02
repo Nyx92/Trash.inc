@@ -5,8 +5,6 @@ import cookieParser from 'cookie-parser';
 import pg from 'pg';
 import jsSHA from 'jssha';
 
-const SALT = 'bubas are delicious';
-
 // Initialise DB connection
 // Instead of client this is Pool
 const { Pool } = pg;
@@ -34,23 +32,37 @@ app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
-// Middleware to read user from session and put it into res.locals
-// so that we can access the userObject in ejs files.
-// think of res.local as an extention to the data field whenever you render
-// In this particular example we are adding a property known as user into the "data" field
-// and it contains request.cookies
-// This is needed for us to output the user name in the nav.ejs
+// initialize salt as a global constant
+const SALT = 'bubas are fun';
+
+// getHash function
+const getHash = (input) => {
+  // create new SHA object
+  const shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
+  // create an unhashed cookie string based on user ID and salt
+  const unhashedString = `${input}-${SALT}`;
+  // generate a hashed cookie string using SHA object
+  shaObj.update(unhashedString);
+  return shaObj.getHash('HEX');
+};
+
 app.use((request, response, next) => {
-  response.locals.user = request.cookies.username;
-  // go to next request handler;
+  // set the default value
+  request.isUserLoggedIn = false;
+
+  // check to see if the cookies you need exists
+  if (request.cookies.loggedIn && request.cookies.userId) {
+    // get the hased value that should be inside the cookie
+    const hash = getHash(request.cookies.userId);
+
+    // test the value of the cookie
+    if (request.cookies.loggedIn === hash) {
+      request.isUserLoggedIn = true;
+    }
+  }
+
   next();
 });
-
-/**
- * Check if user is logged in.
- * @returns True, if logged in. False, otherwise.
- */
-const isLoggedIn = (request) => (request.cookies.loggedIn);
 
 /**
   * Render the home page with list of bird sightings
@@ -97,31 +109,41 @@ app.post('/sign-up', (request, response) => {
 app.post('/login', (request, response) => {
   const { email } = request.body;
   const { password } = request.body;
+  // initialise SHA object - we need to hash the incoming password to compare with db
+  let shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
+  // input the password from the request to the SHA object
+  shaObj.update(password);
+  // get the hashed value as output from the SHA object
+  const hashedPassword = shaObj.getHash('HEX');
   // First look for email in the table
   const sqlQuery = `SELECT * FROM users WHERE email = '${email}'`;
   pool.query(sqlQuery, (submissionError, queryResult) => {
     // if email not found
     if (queryResult.rows.length === 0) {
-      const data = { response: 'Wrong Login credentials!' };
-      response.status(403).render('result', data);
+      response.status(403).render('error-login');
     }
-    // check password
-    else if (queryResult.rows[0].password !== password) {
-      const data = { response: 'Wrong Login credentials!' };
-      response.status(403).render('result', data);
+    // if entered (hashed) password is not the same as the hashed password in db
+    else if (queryResult.rows[0].password !== hashedPassword) {
+      response.status(403).render('error-login');
     }
+    // After successful login, we generate a hashed cookie value using a combination of
+    // user's name and salt, and send that value to the client in a response cookie.
     else {
-      // add a cookie header where value is true
-      if (!isLoggedIn(request)) {
-        console.log('This should run because Im not logged in yet');
-      }
-      response.cookie('loggedIn', true);
-      response.cookie('username', queryResult.rows[0].username);
-      if (isLoggedIn(request)) {
-        console.log('This should run because Ive logged in');
-      }
-      const data = { response: "You've logged in!" };
-      response.render('result', data); }
+      // create new SHA object
+      shaObj = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
+      // create an unhashed cookie string based on user's name and salt
+      const unhashedCookieString = `${queryResult.rows[0].name}-${SALT}`;
+      // generate a hashed cookie string using SHA object
+      shaObj.update(unhashedCookieString);
+      const hashedCookieString = shaObj.getHash('HEX');
+      // set the loggedInHash and userId cookies in the response
+      // This creates a cookie with a header of "loggedInHash" with a value of hashedCookieString
+      response.cookie('loggedInHash', hashedCookieString);
+      // This creates a cookie with a header of "userId" with a value of queryResult.rows[0].id
+      // Why need to set two cookies?###################
+      response.cookie('userId', queryResult.rows[0].id);
+      // end the request-response cycle
+      response.send("you've logged in"); }
   });
 });
 
