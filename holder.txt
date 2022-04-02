@@ -1,0 +1,306 @@
+/**
+  * Render the page to login form
+ */
+app.get('/login', (request, response) => {
+  response.render('login');
+});
+
+/**
+  * checks table accounts for email and password
+ */
+app.post('/login', (request, response) => {
+  const { email } = request.body;
+  console.log(email);
+  const { password } = request.body;
+  console.log(password);
+  // First look for email in the table
+  const sqlQuery = `SELECT * FROM accounts WHERE email = '${email}'`;
+  pool.query(sqlQuery, (submissionError, queryResult) => {
+    // if email not found
+    if (queryResult.rows.length === 0) {
+      const data = { response: 'Wrong Login credentials!' };
+      response.status(403).render('result', data);
+    }
+    // check password
+    else if (queryResult.rows[0].password !== password) {
+      const data = { response: 'Wrong Login credentials!' };
+      response.status(403).render('result', data);
+    }
+    else {
+      // add a cookie header where value is true
+      if (!isLoggedIn(request)) {
+        console.log('This should run because Im not logged in yet');
+      }
+      response.cookie('loggedIn', true);
+      response.cookie('username', queryResult.rows[0].username);
+      if (isLoggedIn(request)) {
+        console.log('This should run because Ive logged in');
+      }
+      const data = { response: "You've logged in!" };
+      response.render('result', data); }
+  });
+});
+
+app.get('/logout', (request, response) => {
+  response.clearCookie('loggedIn');
+  response.clearCookie('username');
+  const data = { response: "You've logged out!" };
+  response.render('result', data);
+});
+
+// Before a user is able to access /note or /edit he must be logged in.
+
+/**
+  * Render the form to input new bird sightings
+ */
+app.get('/note', (request, response) => {
+  if (!isLoggedIn(request)) {
+    const data = { response: "You can't add a note because you've not logged in yet! Please login!" };
+    response.render('result', data);
+  }
+  // Will need to include data from 2 tables here: species and behaviour
+  let sqlQuery = 'SELECT * FROM species';
+  pool.query(sqlQuery, (submissionError, queryResultSpecies) => {
+    sqlQuery = 'SELECT * FROM behaviour';
+    pool.query(sqlQuery, (submissionError, queryResultBehaviour) => {
+      // queryResult.rows return an array of objects
+      // to combine the tables, I'll insert one query into the other
+      const combinedData = { species: queryResultSpecies.rows };
+      combinedData.behaviour = queryResultBehaviour.rows;
+      console.log(combinedData);
+      response.render('note', combinedData);
+    });
+  });
+});
+
+app.post('/note', (request, response) => {
+  console.log('request came in');
+  const birdData = request.body;
+  console.log(birdData);
+  let inputArray = [];
+  console.log(request.cookies.username);
+  inputArray.push(birdData.date, birdData.appearance, birdData.vocalisations, birdData.flock_size, request.cookies.username, birdData.species_id);
+  console.log(inputArray);
+  // Actually I feel that species_id and behaviour_id should preferably be in another
+  // relational table. Because behaviour_id has multiple instances in a single entry
+  // I've created a relational table for birding_id and behaviour_id for now
+  const sqlQuery = 'INSERT INTO birding (date, appearance, vocalisations, flock_size, created_user, species_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+  pool.query(sqlQuery, inputArray, (submissionError, submissionResult) => {
+    if (submissionError) {
+      console.error('form submission error', submissionError);
+    }
+    console.log('This is birdingId');
+    const birdingId = submissionResult.rows[0].id;
+    console.log(birdingId);
+    // console.log(submissionResult);
+    console.log('this is the array of behaviours');
+    console.log(birdData.behaviour);
+    // we don't know how many check boxes are ticked. Therefore birdData.behaviour may be an array
+    // i.e., [birdingId, [birdData.behaviour]]
+    // Therefore for each behaviour we have in [birdData.behaviour], make an insert query
+    // item now refers to birdData.behaviour
+    birdData.behaviour.forEach((item, index) => {
+      console.log('This is the forEachLoop');
+      inputArray = [];
+      console.log(item);
+      inputArray.push(birdingId, item);
+      console.log(inputArray);
+      const sqlQuery = 'INSERT INTO relational (birding_id, behaviour_id) VALUES ($1, $2)';
+      pool.query(sqlQuery, inputArray, (submissionError, submissionResult) => {
+        if (submissionError) {
+          console.error('form submission error', submissionError);
+        }
+      });
+    });
+  });
+  // I want to go to the homepage with a list of notes.
+  response.redirect('/home');
+});
+
+/**
+  * Render the home page with list of bird sightings
+ */
+app.get('/home', (request, response) => {
+  const sqlQuery = 'SELECT * FROM birding';
+  pool.query(sqlQuery, (submissionError, queryResult) => {
+    const data = { sightings: queryResult.rows };
+    response.render('home', data);
+  });
+});
+
+/**
+  * individual sighting index
+ */
+app.get('/home/:index', (request, response) => {
+  const { index } = request.params;
+  // Will have to show the comments made too
+  let combinedData;
+  let sqlQuery = `SELECT * FROM birding WHERE id=${index}`;
+  pool.query(sqlQuery, (submissionError, queryResultBirding) => {
+    sqlQuery = `SELECT * FROM comments WHERE birding_id = ${index}`;
+    pool.query(sqlQuery, (submissionError, queryResultComments) => {
+      combinedData = { sightings: queryResultBirding.rows[0] };
+      if (queryResultComments !== undefined) {
+        combinedData.comments = queryResultComments.rows;
+      }
+      console.log(combinedData);
+      response.render('entry', combinedData);
+    });
+  });
+});
+
+/**
+  * insert comments into comment table
+ */
+app.post('/note/:index/comment', (request, response) => {
+  const birdingId = request.params.index;
+  const commentContent = request.body.comment;
+  // need to get accounts_id from the request.cookies.username
+  let sqlQuery = `SELECT * FROM accounts WHERE username = '${request.cookies.username}'`;
+  pool.query(sqlQuery, (submissionError, queryResult) => {
+    if (submissionError) {
+      console.error('form submission error', submissionError);
+    }
+    console.log(queryResult);
+    const accountId = queryResult.rows[0].id;
+    const input = [commentContent, accountId, birdingId];
+    sqlQuery = 'INSERT INTO comments (comments, accounts_id, birding_id) VALUES ($1, $2, $3)';
+    pool.query(sqlQuery, input, (submissionError, queryResult) => {
+      if (submissionError) {
+        console.error('form submission error', submissionError);
+      }
+      response.redirect('/home');
+    });
+  });
+});
+
+/**
+  * Render the form to edit bird sightings
+ */
+app.get('/edit/:index', (request, response) => {
+  // The objective here is to get the id of the table. This is easy, because id already exist in the table
+  const { index } = request.params;
+  const input = [];
+  input.push(index);
+  const sqlQuery = 'SELECT * FROM birding WHERE id = $1';
+  pool.query(sqlQuery, input, (submissionError, queryResult) => {
+    // console.log(request.cookies.username);
+    // console.log(queryResult.rows[0].username);
+    if (submissionError) {
+      console.log('Error executing query', submissionError.stack);
+      response.status(503).send('SORRY');
+      return;
+    }
+    if (!isLoggedIn(request)) {
+      const data = { response: "You can't edit because you've not logged in yet! Please login!" };
+      response.render('result', data);
+    }
+    else if (request.cookies.username !== queryResult.rows[0].created_user) {
+      const data = { response: "You can't edit because you did not create this entry!" };
+      response.render('result', data);
+    }
+    const data = { sightings: queryResult.rows[0] };
+    console.log(data);
+    response.render('edit', data);
+  });
+});
+
+/**
+  * Make the edit
+ */
+app.put('/edited/:index', (request, response) => {
+  // console.log('test?');
+  const indexNo = parseInt(request.params.index);
+  const flockSize = parseInt(request.body.flock_size);
+  const sqlQuery = `UPDATE birding SET date = '${request.body.date}', appearance = '${request.body.appearance}', behaviour = '${request.body.behaviour}', vocalisations = '${request.body.vocalisations}', flock_size = ${flockSize} WHERE id = ${indexNo}`;
+  pool.query(sqlQuery, (submissionError, queryResult) => {
+    console.log(queryResult);
+    response.redirect('/home');
+  });
+});
+
+/**
+  * Make the delete
+ */
+app.delete('/delete/:index', (request, response) => {
+  const { index } = request.params;
+  const input = [];
+  input.push(index);
+  let sqlQuery = 'SELECT * FROM birding WHERE id = $1';
+  pool.query(sqlQuery, input, (submissionError, queryResult) => {
+    if (submissionError) {
+      console.log('Error executing query', submissionError.stack);
+      response.status(503).send('SORRY');
+    }
+    else if (!isLoggedIn(request)) {
+      const data = { response: "You can't delete because you've not logged in yet! Please login!" };
+      response.render('result', data);
+    }
+    else if (request.cookies.username !== queryResult.rows[0].created_user) {
+      const data = { response: "You can't delete because you did not create this entry!" };
+      response.render('result', data);
+    } else {
+      sqlQuery = `DELETE FROM birding WHERE id = ${index}`;
+      pool.query(sqlQuery, (submissionError, queryResult) => {
+        response.redirect('/home'); });
+    }
+  });
+});
+/**
+  * Render the form to create species
+ */
+app.get('/species', (request, response) => {
+  if (!isLoggedIn(request)) {
+    const data = { response: "You can't add a note because you've not logged in yet! Please login!" };
+    response.render('result', data);
+  }
+  response.render('species-note');
+});
+
+/**
+  * stores species data in table:species
+ */
+app.post('/species', (request, response) => {
+  console.log('request came in');
+  const speciesData = request.body;
+  const inputArray = [];
+  inputArray.push(speciesData.species, speciesData.scientific);
+  console.log(inputArray);
+  const sqlQuery = 'INSERT INTO species (name, scientific_name) VALUES ($1, $2)';
+  pool.query(sqlQuery, inputArray, (submissionError, submissionResult) => {
+    if (submissionError) {
+      console.error('form submission error', submissionError);
+    }
+  });
+  // I want to go to the species page with a list of species.
+  response.redirect('/species/all');
+});
+
+/**
+  * renders full list of species
+ */
+app.get('/species/all', (request, response) => {
+  const sqlQuery = 'SELECT * FROM species';
+  pool.query(sqlQuery, (submissionError, queryResult) => {
+    const data = { species: queryResult.rows };
+    response.render('species-list', data);
+  });
+});
+
+/**
+  * renders all the entries of the specific species, i,e., one to many
+ */
+// index refers to species' id
+app.get('/species/:index', (request, response) => {
+  const { index } = request.params;
+  const sqlQuery = `SELECT birding.date, birding.appearance, birding.vocalisations, birding.flock_size, species.name, species.scientific_name 
+ FROM birding
+ INNER JOIN species
+ ON birding.species_id = species.id
+ WHERE species.id = ${index}`;
+  pool.query(sqlQuery, (submissionError, queryResult) => {
+    const data = { sightings: queryResult.rows };
+    console.log(data);
+    response.render('home', data);
+  });
+});

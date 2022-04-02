@@ -1,10 +1,13 @@
 {
-  "name": "birding-express-bootcamp",
+  "name": "trash-inc-bootcamp",
   "version": "1.0.0",
   "description": "# base-node-bootcamp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:create": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/create-user.sql",
+    "db:delete": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/delete-user-table.sql",
+    "db:show": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/show-user.sql"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
+    "jssha": "^3.2.0",
     "method-override": "^3.0.0",
     "pg": "^8.5.1"
   }
