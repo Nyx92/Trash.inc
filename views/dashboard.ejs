@@ -1,8 +1,15 @@
 <%- include('dash-nav'); -%>
 
 <!-- Banners -->
-<div class="banner-dash"></div>
-<div class="profile-details"></div>
+<div class="wrap-profile">
+  <div class="banner-dash"></div>
+  <div class="profile-details">
+    <a class="profile-pic-dash" href="http://localhost:3004/dashboard">
+      <img src="./buttercups.jpg" alt="profile-pic" />
+    </a>
+    <p class="username"><strong><%= userdata.name %></strong></p>
+  </div>
+</div>
 <!-- End of Banners -->
 
 <!-- Content Container -->
@@ -10,14 +17,14 @@
   <!-- Section 1 -->
   <section class="section-1">
     <div class="info">
-      <h2>
-        From recycling and disposal services to earning opportunities. We're an
-        all-in-one platform.
-      </h2>
+      <h2>Here's a snapshot of your recycling efforts:</h2>
     </div>
-    <button class="recycle" onclick="myFunction1()" href="">Recycle</button>
-    <button class="disposal" onclick="myFunction2()" href="">Disposal</button>
-    <button class="re-sell" onclick="myFunction3()" href="">Re-Sell</button>
+    <div class="carbon-footprint">
+      <img src="" alt="" />
+    </div>
+    <div class="trees-plant">
+      <img src="" alt="" />
+    </div>
   </section>
   <!-- End of Section 1 -->
 

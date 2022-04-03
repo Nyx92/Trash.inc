@@ -154,7 +154,15 @@ app.get('/dashboard', (request, response) => {
   // from the cookie, retrieve all information about the user to output at dashboard
   const retrieveUserId = request.cookies.userid;
   // definitely have to do somekind of promise here
-  response.render('dashboard');
+  let data;
+  console.log(data);
+  const sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
+  pool.query(sqlQuery)
+    .then((result) => {
+      data = result.rows[0];
+      response.render('dashboard', { userdata: data });
+    })
+    .catch((error) => console.log(error.stack));
 });
 
 app.listen(3004);

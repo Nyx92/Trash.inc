@@ -447,18 +447,41 @@ body {
   margin-top: 20px;
 }
 
-.banner-dash {
+.wrap-profile {
   height: 400px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.banner-dash {
+  height: 100%;
+  width: 100%;
   background: #060b23;
-  display: relative;
 }
 
 .profile-details {
   height: 400px;
-  background: rgb(201, 198, 198);
-  width: 60%;
-  border: solid, black;
-  display: absolute;
-  margin: auto;
-  top: 30px;
+  background: white;
+  border-radius: 5px;
+  width: 40%;
+  position: absolute;
+  top: 40px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  /* display: flex;
+  justify-content: center; */
+  text-align: center;
+}
+
+.profile-pic-dash img {
+  padding-top: 30px;
+  height: 35%;
+  /* margin: auto; */
+}
+
+.username {
+  display: block;
+  font-family: "Convergence", sans-serif;
+  font-size: 20px;
 }
