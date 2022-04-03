@@ -48,27 +48,30 @@ const getHash = (input) => {
 
 app.use((request, response, next) => {
   // set the default value
+  console.log('user is not logged in');
   request.isUserLoggedIn = false;
 
   // check to see if the cookies you need exists
-  if (request.cookies.loggedIn && request.cookies.userId) {
+  if (request.cookies.loggedInHash && request.cookies.username) {
     // get the hased value that should be inside the cookie
-    const hash = getHash(request.cookies.userId);
+    const hash = getHash(request.cookies.username);
 
     // test the value of the cookie
-    if (request.cookies.loggedIn === hash) {
+    if (request.cookies.loggedInHash === hash) {
       request.isUserLoggedIn = true;
     }
+    if (request.isUserLoggedIn === true) {
+      console.log('user is logged in');
+    }
   }
-
   next();
 });
 
 /**
   * Render the home page with list of bird sightings
  */
-app.get('/home', (request, response) => {
-  response.render('home');
+app.get('/landing', (request, response) => {
+  response.render('landing');
 });
 
 /**
@@ -140,11 +143,18 @@ app.post('/login', (request, response) => {
       // This creates a cookie with a header of "loggedInHash" with a value of hashedCookieString
       response.cookie('loggedInHash', hashedCookieString);
       // This creates a cookie with a header of "userId" with a value of queryResult.rows[0].id
-      // Why need to set two cookies?###################
-      response.cookie('userId', queryResult.rows[0].id);
+      response.cookie('username', queryResult.rows[0].name);
+      response.cookie('userid', queryResult.rows[0].id);
       // end the request-response cycle
-      response.send("you've logged in"); }
+      response.redirect('dashboard'); }
   });
+});
+
+app.get('/dashboard', (request, response) => {
+  // from the cookie, retrieve all information about the user to output at dashboard
+  const retrieveUserId = request.cookies.userid;
+  // definitely have to do somekind of promise here
+  response.render('dashboard');
 });
 
 app.listen(3004);
