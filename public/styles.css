@@ -485,3 +485,36 @@ body {
   font-family: "Convergence", sans-serif;
   font-size: 20px;
 }
+
+.content-container-dash {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.recycling-tabulations {
+  width: 80%;
+  background: #f3f4f7;
+  margin: auto;
+}
+
+.carbon-footprint,
+.trees-planted,
+.paper-recycled,
+.textile-recycled,
+.metals-recycled,
+.ewaste-recycled {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: black;
+  font-size: 60;
+}
+
+.carbon-icon,
+.tree-icon,
+.paper-icon,
+.metal-icon,
+.ewaste-icon,
+.textile-icon {
+  height: 200px;
+}

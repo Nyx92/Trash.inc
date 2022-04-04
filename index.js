@@ -165,4 +165,8 @@ app.get('/dashboard', (request, response) => {
     .catch((error) => console.log(error.stack));
 });
 
+app.get('/recycle', (request, response) => {
+  response.render('recycle');
+});
+
 app.listen(3004);

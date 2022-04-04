@@ -1,102 +1,99 @@
 <%- include('dash-nav'); -%>
 
-<!-- Banners -->
-<div class="wrap-profile">
-  <div class="banner-dash"></div>
-  <div class="profile-details">
-    <a class="profile-pic-dash" href="http://localhost:3004/dashboard">
-      <img src="./buttercups.jpg" alt="profile-pic" />
-    </a>
-    <p class="username"><strong><%= userdata.name %></strong></p>
-  </div>
-</div>
-<!-- End of Banners -->
-
 <!-- Content Container -->
-<div class="content-container">
-  <!-- Section 1 -->
-  <section class="section-1">
-    <div class="info">
-      <h2>Here's a snapshot of your recycling efforts:</h2>
-    </div>
-    <div class="carbon-footprint">
-      <img src="" alt="" />
-    </div>
-    <div class="trees-plant">
-      <img src="" alt="" />
-    </div>
-  </section>
-  <!-- End of Section 1 -->
-
-  <!-- First Panel -->
-  <div class="first-panel">
-    <!-- First Panel section-1-->
-    <section class="first-panel-section-1">
-      <!-- title-left -->
-      <div class="title-left">
-        <h2>Recycle</h2>
-      </div>
-      <!-- End of title-left -->
-      <!-- details-right -->
-      <div class="details-right">
-        <div>
-          <p>
-            <strong>Collection</strong> <br /><br />We will collect all the
-            items right at your doorstep.
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong>Processing Factories</strong> <br /><br />Items will be
-            sorted and sent to respective processing plants.
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong>Re-purposed</strong> <br /><br />Processed materials will be
-            repurposed.
-          </p>
-        </div>
-      </div>
-      <!-- End of details-right -->
-    </section>
-    <!-- End of First Panel section-1-->
-
-    <!-- First Panel section-2-->
-    <section class="first-panel-section-2">
-      <!-- title-left -->
-      <div class="title-left">
-        <h2>Recycle</h2>
-      </div>
-      <!-- End of title-left -->
-      <!-- details-right -->
-      <div class="details-right">
-        <div>
-          <p>
-            <strong>Collection</strong> <br /><br />We will collect all the
-            items right at your doorstep.
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong>Processing Factories</strong> <br /><br />Items will be
-            sorted and sent to respective processing plants.
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong>Re-purposed</strong> <br /><br />Processed materials will be
-            repurposed.
-          </p>
-        </div>
-      </div>
-      <!-- End of details-right -->
-    </section>
-    <!-- End of First Panel section-2-->
+<div class="content-container-dash">
+  <div class="info">
+    <h2>Here's a snapshot of your recycling efforts:</h2>
   </div>
+
+  <!-- Recycling Tabulations -->
+  <section class="recycling-tabulations">
+    <div class="carbon-footprint">
+      <!-- icon left -->
+      <div class="carbon-footprint-icon-left">
+        <img
+          class="carbon-icon"
+          src="./carbon_footprint_icon.png"
+          alt="profile-pic"
+        />
+        <!-- End of icon left -->
+      </div>
+      <!-- details-right -->
+      <div class="carbon-footprint-details-right">
+        <p>999</p>
+        <!-- End of details-right -->
+      </div>
+    </div>
+
+    <div class="trees-planted">
+      <!-- icon left -->
+      <div class="tree-icon-left">
+        <img class="tree-icon" src="./tree-icon.png" alt="profile-pic" />
+        <!-- End of icon left -->
+      </div>
+      <!-- details-right -->
+      <div class="tree-details-right">
+        <p>999</p>
+        <!-- End of details-right -->
+      </div>
+    </div>
+
+    <div class="paper-recycled">
+      <!-- icon left -->
+      <div class="paper-icon-left">
+        <img class="paper-icon" src="./paper-icon.png" alt="profile-pic" />
+        <!-- End of icon left -->
+      </div>
+      <!-- details-right -->
+      <div class="paper-details-right">
+        <p>999</p>
+        <!-- End of details-right -->
+      </div>
+    </div>
+
+    <div class="textile-recycled">
+      <!-- icon left -->
+      <div class="textile-icon-left">
+        <img class="textile-icon" src="./textile-icon.png" alt="profile-pic" />
+        <!-- End of icon left -->
+      </div>
+      <!-- details-right -->
+      <div class="textile-details-right">
+        <p>999</p>
+        <!-- End of details-right -->
+      </div>
+    </div>
+
+    <div class="metals-recycled">
+      <!-- icon left -->
+      <div class="metal-icon-left">
+        <img class="metal-icon" src="./metal-icon.png" alt="profile-pic" />
+        <!-- End of icon left -->
+      </div>
+      <!-- details-right -->
+      <div class="metal-details-right">
+        <p>999</p>
+        <!-- End of details-right -->
+      </div>
+    </div>
+
+    <div class="ewaste-recycled">
+      <!-- icon left -->
+      <div class="ewaste-icon-left">
+        <img class="ewaste-icon" src="./ewaste-icon.png" alt="profile-pic" />
+        <!-- End of icon left -->
+      </div>
+      <!-- details-right -->
+      <div class="ewaste-details-right">
+        <p>999</p>
+        <!-- End of details-right -->
+      </div>
+    </div>
+
+    <!-- End of Recycling Tabulations -->
+  </section>
 
   <!-- End of Content Container -->
 </div>
-<!-- End of First Panel -->
 
 <%- include('footer'); -%>
