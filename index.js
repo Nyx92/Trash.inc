@@ -155,18 +155,119 @@ app.get('/dashboard', (request, response) => {
   const retrieveUserId = request.cookies.userid;
   // definitely have to do somekind of promise here
   let data;
+  let username;
+  let totalPaperQuantity = 0;
+  let totalMetalQuantity = 0;
+  let totalTextileQuantity = 0;
+  let totalEwasteQuantity = 0;
+  let totalCarbonSaved = 0;
+  let totalTreesSaved = 0;
   console.log(data);
-  const sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
+  let sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
+  // we'll grab the username first
   pool.query(sqlQuery)
     .then((result) => {
+      // console.log(result);
       data = result.rows[0];
-      response.render('dashboard', { userdata: data });
-    })
-    .catch((error) => console.log(error.stack));
+      console.log(data);
+      username = data.name;
+      // response.render('dashboard', { userdata: data });
+    });
+  // .catch((error) => console.log(error.stack));
+  // I have to collate the total quantity of a specific material_type starting from paper
+  sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Paper' AND user_id  = ${retrieveUserId})`;
+  pool.query(sqlQuery)
+    .then((result) => {
+      result.rows.forEach((x) => {
+        for (const y in x) {
+          totalPaperQuantity += (x[y]);
+        }
+      });
+      console.log(`This is totalPaperQuan: ${totalPaperQuantity}`);
+    });
+
+  // .catch((error) => console.log(error.stack));
+
+  // collate total metal
+  sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Metals' AND user_id  = ${retrieveUserId})`;
+  pool.query(sqlQuery)
+    .then((result) => {
+      result.rows.forEach((x) => {
+        for (const y in x) {
+          totalMetalQuantity += (x[y]);
+        }
+      });
+      console.log(`This is totalMetalQuan: ${totalMetalQuantity}`);
+    });
+
+  // .catch((error) => console.log(error.stack));
+
+  // collate total Textile
+  sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Textile' AND user_id  = ${retrieveUserId})`;
+  pool.query(sqlQuery)
+    .then((result) => {
+      result.rows.forEach((x) => {
+        for (const y in x) {
+          totalTextileQuantity += (x[y]);
+        }
+      });
+      console.log(`This is totalTextileQuan: ${totalTextileQuantity}`);
+    });
+
+  // .catch((error) => console.log(error.stack));
+
+  // collate total E-waste
+  sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'E-waste' AND user_id  = ${retrieveUserId})`;
+  pool.query(sqlQuery)
+    .then((result) => {
+      result.rows.forEach((x) => {
+        for (const y in x) {
+          totalEwasteQuantity += (x[y]);
+        }
+      });
+      console.log(`This is totalE-wasteQuan: ${totalEwasteQuantity}`);
+      // tabulate total quantity of carbon
+      totalCarbonSaved = totalPaperQuantity + totalEwasteQuantity + totalTextileQuantity + totalMetalQuantity;
+      // tabulate total tress saved
+      console.log(`This is totalCarbonSaved: ${totalCarbonSaved}`);
+      totalTreesSaved = 123;
+
+      const finalData = [
+        {
+          totalPaper: totalPaperQuantity,
+          totalMetal: totalMetalQuantity,
+          totalTextile: totalTextileQuantity,
+          totalEwaste: totalEwasteQuantity,
+          totalCarbon: totalCarbonSaved,
+          totalTree: totalTreesSaved,
+          user: username,
+        },
+      ];
+      console.log(`This is username: ${username}`);
+      console.log(finalData);
+      response.render('dashboard', { userdata: finalData });
+    });
 });
 
 app.get('/recycle', (request, response) => {
   response.render('recycle');
+});
+
+app.post('/recycle', (request, response) => {
+  const { material } = request.body;
+  const { item } = request.body;
+  const { quantity } = request.body;
+  const retrieveUserId = request.cookies.userid;
+  console.log(material);
+  console.log(item);
+  console.log(quantity);
+  const inputData = [];
+  inputData.push(material, item, quantity, retrieveUserId);
+  console.log(inputData);
+  const sqlQuery = 'INSERT INTO recycle_order (material_type, item, quantity, user_id) VALUES ($1, $2, $3, $4)';
+  pool.query(sqlQuery, inputData, (submissionError, queryResult) => {
+    response.redirect('dashboard');
+  });
 });
 
 app.listen(3004);

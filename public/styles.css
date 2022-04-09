@@ -518,3 +518,64 @@ body {
 .textile-icon {
   height: 200px;
 }
+
+/* recycle form */
+
+.recycle-form {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 600px;
+}
+
+.recycle-form-container {
+  border-radius: 5px;
+  color: white;
+  background-color: #060b23;
+  padding: 80px;
+  text-align: center;
+  width: 400px;
+}
+
+#level1,
+#level2 {
+  width: 120px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+#level2 {
+  margin-bottom: 15px;
+}
+
+#quantity {
+  display: block;
+  /* height of each field */
+  padding: 10px;
+  padding-right: 50px;
+  padding-left: 50px;
+  margin: auto;
+  /* adding space between each field */
+  margin-bottom: 5px;
+  text-align: center;
+  border: solid #e1e5ee;
+  border-radius: 5px;
+  font-family: inherit;
+  background: none;
+  color: white;
+}
+
+#quantity:hover {
+  border: solid #adffff;
+}
+
+.submit-recycle-button {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  margin: auto;
+  width: 63%;
+  padding: 10px;
+  border-radius: 5px;
+  font: inherit;
+}

@@ -1,0 +1,97 @@
+<%- include('dash-nav'); -%>
+
+<!-- Content Container -->
+<div class="content-container-dash">
+  <div class="form-banner">
+    <p class="form-banner-text">Recycling Form:</p>
+  </div>
+
+  <div class="recycle-form">
+    <div class="recycle-form-container">
+      <form action="/recycle" method="POST">
+        <p>Select material category</p>
+        <select id="level1" name="material"></select>
+        <p>Select recycle item</p>
+        <select id="level2" name="item"></select>
+      </br>
+        <label for="quantity">Select quantity:</label>
+        <input type="number" id="quantity" name="quantity" />
+          <input type="submit" value="submit" class ="login-button" />
+      </form>
+      <!-- end of recycle-form-container -->
+    </div>
+    <!-- end of recycle form -->
+  </div>
+  <!-- end of content container -->
+</div>
+
+<script>
+  const myData = [
+    ["Paper", "Newspaper"],
+    ["Paper", "Books"],
+    ["Paper", "Cardboard"],
+    ["Paper", "Others"],
+    ["Metals", "Home appliances"],
+    ["Metals", "Cans"],
+    ["Metals", "Others"],
+    ["Textile", "Clothes"],
+    ["Textile", "Bags"],
+    ["Textile", "Accessories"],
+    ["Textile", "Others"],
+    ["E-waste", "Handphone"],
+    ["E-waste", "Computer"],
+    ["E-waste", "Tablet"],
+    ["E-waste", "Others"],
+  ];
+
+  function makeDropDown(data, level1Filter) {
+    // finds the arrays where [0] is "Paper", and then filters
+    const filteredArray = data.filter(
+      (anything) => anything[0] === level1Filter
+    );
+    let posOneArray = [];
+    filteredArray.forEach((x) => posOneArray.push(x[1]));
+    // finds the select tag where id is level2
+    const selectLevel2 = document.getElementById("level2");
+    populateDropDown(selectLevel2, posOneArray);
+  }
+
+  function applyDropDown() {
+    const selectLevel1Value = document.getElementById("level1").value;
+    makeDropDown(myData, selectLevel1Value);
+  }
+
+  function afterDocumentLoads() {
+    populateFirstLevelDropDown();
+    applyDropDown();
+  }
+
+  function getUniqueValues(data, index) {
+    const uniqueOptions = new Set();
+    data.forEach((r) => uniqueOptions.add(r[index]));
+    return [...uniqueOptions];
+  }
+
+  function populateFirstLevelDropDown() {
+    const uniqueList = getUniqueValues(myData, 0);
+    const selectLevel1 = document.getElementById("level1");
+    populateDropDown(selectLevel1, uniqueList);
+  }
+
+  function populateDropDown(el, listAsArray, index) {
+    el.innerHTML = "";
+    // for each array (filtered), create an option
+    listAsArray.forEach((anything2) => {
+      const option = document.createElement("option");
+      // gives it a content of the content of the filtered array at [1]
+      option.textContent = anything2;
+      // puts the option in that select tag where id is level2
+      el.appendChild(option);
+    });
+  }
+
+  document.getElementById("level1").addEventListener("change", applyDropDown);
+  document.addEventListener("DOMContentLoaded", afterDocumentLoads);
+</script>
+
+<%- include('footer'); -%>
