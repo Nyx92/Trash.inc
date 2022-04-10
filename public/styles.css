@@ -497,7 +497,24 @@ body {
   margin: auto;
 }
 
-.carbon-footprint,
+.carbon-footprint-segment {
+  background: red;
+  text-align: center;
+}
+
+.carbon-footprint {
+  position: relative;
+}
+
+.wrapper-carbon-left-right {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  top: 0;
+  z-index: 2;
+}
+
+/* .carbon-footprint,
 .trees-planted,
 .paper-recycled,
 .textile-recycled,
@@ -508,7 +525,7 @@ body {
   align-items: center;
   color: black;
   font-size: 60;
-}
+} */
 
 .carbon-icon,
 .tree-icon,
@@ -516,7 +533,8 @@ body {
 .metal-icon,
 .ewaste-icon,
 .textile-icon {
-  height: 200px;
+  height: 180px;
+  padding: 20px;
 }
 
 /* recycle form */

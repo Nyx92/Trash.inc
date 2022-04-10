@@ -20,8 +20,10 @@
 
   <!-- Recycling Tabulations -->
   <section class="recycling-tabulations">
-    <div class="carbon-footprint">
+    <div class="carbon-footprint-segment">
+    <img class="carbon-footprint" src="./carbon-footprint-background.jpg">
       <!-- icon left -->
+      <div class ="wrapper-carbon-left-right">
       <div class="carbon-footprint-icon-left">
         <img
           class="carbon-icon"
@@ -32,9 +34,13 @@
       </div>
       <!-- details-right -->
       <div class="carbon-footprint-details-right">
-        <p>999</p>
+        <p class="carbon-data"><%= userdata.totalCarbon %></p>
         <!-- End of details-right -->
       </div>
+      </div>
+      <!-- End of carbo-footprint -->
+    </img>
+    <!-- End of carbo-footprint segment-->
     </div>
 
     <div class="trees-planted">
@@ -45,7 +51,7 @@
       </div>
       <!-- details-right -->
       <div class="tree-details-right">
-        <p>999</p>
+        <p class="tree-data"><%= userdata.totalTree%></p>
         <!-- End of details-right -->
       </div>
     </div>
@@ -58,7 +64,7 @@
       </div>
       <!-- details-right -->
       <div class="paper-details-right">
-        <p>999</p>
+        <p class="paper-data"><%= userdata.totalPaper%></p>
         <!-- End of details-right -->
       </div>
     </div>
@@ -71,7 +77,7 @@
       </div>
       <!-- details-right -->
       <div class="textile-details-right">
-        <p>999</p>
+        <p class="textile-data"><%= userdata.totalTextile%></p>
         <!-- End of details-right -->
       </div>
     </div>
@@ -84,7 +90,7 @@
       </div>
       <!-- details-right -->
       <div class="metal-details-right">
-        <p>999</p>
+        <p class="metal-data"><%= userdata.totalMetal%></p>
         <!-- End of details-right -->
       </div>
     </div>
@@ -97,7 +103,7 @@
       </div>
       <!-- details-right -->
       <div class="ewaste-details-right">
-        <p>999</p>
+        <p class="ewaste-data"><%= userdata.totalEwaste%></p>
         <!-- End of details-right -->
       </div>
     </div>

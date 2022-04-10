@@ -171,9 +171,7 @@ app.get('/dashboard', (request, response) => {
       data = result.rows[0];
       console.log(data);
       username = data.name;
-      // response.render('dashboard', { userdata: data });
     });
-  // .catch((error) => console.log(error.stack));
   // I have to collate the total quantity of a specific material_type starting from paper
   sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Paper' AND user_id  = ${retrieveUserId})`;
   pool.query(sqlQuery)
@@ -185,9 +183,6 @@ app.get('/dashboard', (request, response) => {
       });
       console.log(`This is totalPaperQuan: ${totalPaperQuantity}`);
     });
-
-  // .catch((error) => console.log(error.stack));
-
   // collate total metal
   sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Metals' AND user_id  = ${retrieveUserId})`;
   pool.query(sqlQuery)
@@ -199,9 +194,6 @@ app.get('/dashboard', (request, response) => {
       });
       console.log(`This is totalMetalQuan: ${totalMetalQuantity}`);
     });
-
-  // .catch((error) => console.log(error.stack));
-
   // collate total Textile
   sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Textile' AND user_id  = ${retrieveUserId})`;
   pool.query(sqlQuery)
@@ -213,9 +205,6 @@ app.get('/dashboard', (request, response) => {
       });
       console.log(`This is totalTextileQuan: ${totalTextileQuantity}`);
     });
-
-  // .catch((error) => console.log(error.stack));
-
   // collate total E-waste
   sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'E-waste' AND user_id  = ${retrieveUserId})`;
   pool.query(sqlQuery)
@@ -232,19 +221,19 @@ app.get('/dashboard', (request, response) => {
       console.log(`This is totalCarbonSaved: ${totalCarbonSaved}`);
       totalTreesSaved = 123;
 
-      const finalData = [
-        {
-          totalPaper: totalPaperQuantity,
-          totalMetal: totalMetalQuantity,
-          totalTextile: totalTextileQuantity,
-          totalEwaste: totalEwasteQuantity,
-          totalCarbon: totalCarbonSaved,
-          totalTree: totalTreesSaved,
-          user: username,
-        },
-      ];
+      const finalData = {
+        totalPaper: totalPaperQuantity,
+        totalMetal: totalMetalQuantity,
+        totalTextile: totalTextileQuantity,
+        totalEwaste: totalEwasteQuantity,
+        totalCarbon: totalCarbonSaved,
+        totalTree: totalTreesSaved,
+        user: username,
+      };
+
       console.log(`This is username: ${username}`);
       console.log(finalData);
+      console.log('page renders');
       response.render('dashboard', { userdata: finalData });
     });
 });
