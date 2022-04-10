@@ -497,21 +497,75 @@ body {
   margin: auto;
 }
 
-.carbon-footprint-segment {
-  background: red;
+.carbon-footprint-segment,
+.trees-planted-segment,
+.paper-segment,
+.metal-segment,
+.textile-segment,
+.ewaste-segment {
+  background: #060b23;
+  height: 600px;
   text-align: center;
-}
-
-.carbon-footprint {
   position: relative;
 }
 
-.wrapper-carbon-left-right {
+.carbon-footprint,
+.trees-planted,
+.paper-recycled,
+.metal-recycled,
+.textile-recycled,
+.ewaste-recycled {
+  height: 500px;
+  width: 800px;
+  margin-top: 50px;
+}
+
+.wrapper-carbon-segment-details,
+.wrapper-trees-segment-details,
+.wrapper-paper-segment-details,
+.wrapper-metal-segment-details,
+.wrapper-textile-segment-details,
+.wrapper-ewaste-segment-details {
   position: absolute;
   display: flex;
   justify-content: space-around;
+  height: 100%;
+  width: 100%;
   top: 0;
-  z-index: 2;
+  z-index: 1;
+}
+
+.carbon-footprint-title,
+.trees-title,
+.paper-title,
+.metal-title,
+.textile-title,
+.ewaste-title {
+  font-size: 42px;
+  margin-top: 80px;
+  background: white;
+  border: solid #060b23;
+}
+
+.ewaste-title {
+  background: white;
+}
+
+.carbon-data,
+.trees-data,
+.paper-data,
+.metal-data,
+.textile-data,
+.ewaste-data {
+  margin-top: 80px;
+  background: #060b23;
+  font-size: 21px;
+  color: white;
+  height: 40px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* .carbon-footprint,

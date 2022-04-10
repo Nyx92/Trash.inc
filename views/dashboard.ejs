@@ -20,92 +20,124 @@
 
   <!-- Recycling Tabulations -->
   <section class="recycling-tabulations">
+    <!-- carbon-footprint segment-->
     <div class="carbon-footprint-segment">
-    <img class="carbon-footprint" src="./carbon-footprint-background.jpg">
-      <!-- icon left -->
-      <div class ="wrapper-carbon-left-right">
-      <div class="carbon-footprint-icon-left">
-        <img
-          class="carbon-icon"
-          src="./carbon_footprint_icon.png"
-          alt="profile-pic"
-        />
-        <!-- End of icon left -->
+      <img class="carbon-footprint" src="./carbon-footprint-background.jpg" />
+      <!-- wrapper-carbon-segment-details -->
+      <div class="wrapper-carbon-segment-details">
+        <!-- carbon-footprint-details -->
+        <div class="carbon-footprint-details">
+          <h1 class="carbon-footprint-title">Carbon Footprint Reduced</h1>
+          <p class="carbon-data">
+            <strong>
+              <%= userdata.totalCarbon / 1000 %> metric tons of CO2e</strong
+            >
+          </p>
+          <!-- End of carbon-footprint-details -->
+        </div>
+        <!-- wrapper-carbon-segment-details -->
       </div>
-      <!-- details-right -->
-      <div class="carbon-footprint-details-right">
-        <p class="carbon-data"><%= userdata.totalCarbon %></p>
-        <!-- End of details-right -->
-      </div>
-      </div>
-      <!-- End of carbo-footprint -->
-    </img>
-    <!-- End of carbo-footprint segment-->
+      <!-- End of carbon-footprint segment-->
     </div>
 
-    <div class="trees-planted">
-      <!-- icon left -->
-      <div class="tree-icon-left">
-        <img class="tree-icon" src="./tree-icon.png" alt="profile-pic" />
-        <!-- End of icon left -->
+    <!-- trees planted segment-->
+    <div class="trees-planted-segment">
+      <img class="trees-planted" src="./trees.jpg" />
+      <!-- wrapper-trees-segment-details -->
+      <div class="wrapper-trees-segment-details">
+        <!-- trees-details -->
+        <div class="trees-details">
+          <h1 class="trees-title">Trees Planted</h1>
+          <p class="trees-data">
+            <strong>
+              Equivalent to <%= userdata.totalTree / 1000 %> Trees Planted
+            </strong>
+          </p>
+          <!-- End of trees-details -->
+        </div>
+        <!-- wrapper-trees-segment-details -->
       </div>
-      <!-- details-right -->
-      <div class="tree-details-right">
-        <p class="tree-data"><%= userdata.totalTree%></p>
-        <!-- End of details-right -->
-      </div>
+      <!-- End of trees planted segment-->
     </div>
 
-    <div class="paper-recycled">
-      <!-- icon left -->
-      <div class="paper-icon-left">
-        <img class="paper-icon" src="./paper-icon.png" alt="profile-pic" />
-        <!-- End of icon left -->
+    <!-- paper segment-->
+    <div class="paper-segment">
+      <img class="paper-recycled" src="./paper.jpg" />
+      <!-- wrapper-paper-segment-details -->
+      <div class="wrapper-paper-segment-details">
+        <!-- paper-details -->
+        <div class="paper-details">
+          <h1 class="paper-title">Paper Recycled</h1>
+          <p class="paper-data">
+            <strong>
+              <%= userdata.totalPaper %> kilograms of Paper Recycled
+            </strong>
+          </p>
+          <!-- End of paper-details -->
+        </div>
+        <!-- wrapper-paper-segment-details -->
       </div>
-      <!-- details-right -->
-      <div class="paper-details-right">
-        <p class="paper-data"><%= userdata.totalPaper%></p>
-        <!-- End of details-right -->
-      </div>
+      <!-- End of paper recycled segment-->
     </div>
 
-    <div class="textile-recycled">
-      <!-- icon left -->
-      <div class="textile-icon-left">
-        <img class="textile-icon" src="./textile-icon.png" alt="profile-pic" />
-        <!-- End of icon left -->
+    <!-- Textile segment-->
+    <div class="textile-segment">
+      <img class="textile-recycled" src="./textile.jpg" />
+      <!-- wrapper-textile-segment-details -->
+      <div class="wrapper-textile-segment-details">
+        <!-- textile-details -->
+        <div class="textile-details">
+          <h1 class="textile-title">Textile Recycled</h1>
+          <p class="textile-data">
+            <strong>
+              <%= userdata.totalTextile %> kilograms of Textile Recycled
+            </strong>
+          </p>
+          <!-- End of textile-details -->
+        </div>
+        <!-- wrapper-textile-segment-details -->
       </div>
-      <!-- details-right -->
-      <div class="textile-details-right">
-        <p class="textile-data"><%= userdata.totalTextile%></p>
-        <!-- End of details-right -->
-      </div>
+      <!-- End of textile recycled segment-->
     </div>
 
-    <div class="metals-recycled">
-      <!-- icon left -->
-      <div class="metal-icon-left">
-        <img class="metal-icon" src="./metal-icon.png" alt="profile-pic" />
-        <!-- End of icon left -->
+    <!-- Metal segment-->
+    <div class="metal-segment">
+      <img class="metal-recycled" src="./metal.jpg" />
+      <!-- wrapper-metal-segment-details -->
+      <div class="wrapper-metal-segment-details">
+        <!-- metal-details -->
+        <div class="metal-details">
+          <h1 class="metal-title">Metal Recycled</h1>
+          <p class="metal-data">
+            <strong>
+              <%= userdata.totalMetal %> kilograms of Metals Recycled
+            </strong>
+          </p>
+          <!-- End of metal-details -->
+        </div>
+        <!-- wrapper-metal-segment-details -->
       </div>
-      <!-- details-right -->
-      <div class="metal-details-right">
-        <p class="metal-data"><%= userdata.totalMetal%></p>
-        <!-- End of details-right -->
-      </div>
+      <!-- End of metal recycled segment-->
     </div>
 
-    <div class="ewaste-recycled">
-      <!-- icon left -->
-      <div class="ewaste-icon-left">
-        <img class="ewaste-icon" src="./ewaste-icon.png" alt="profile-pic" />
-        <!-- End of icon left -->
+    <!-- ewaste segment-->
+    <div class="ewaste-segment">
+      <img class="ewaste-recycled" src="./ewaste.png" />
+      <!-- wrapper-ewaste-segment-details -->
+      <div class="wrapper-ewaste-segment-details">
+        <!-- ewaste-details -->
+        <div class="ewaste-details">
+          <h1 class="ewaste-title">E-waste Recycled</h1>
+          <p class="ewaste-data">
+            <strong>
+              <%= userdata.totalEwaste %> kilograms of E-waste Recycled
+            </strong>
+          </p>
+          <!-- End of ewaste-details -->
+        </div>
+        <!-- wrapper-ewaste-segment-details -->
       </div>
-      <!-- details-right -->
-      <div class="ewaste-details-right">
-        <p class="ewaste-data"><%= userdata.totalEwaste%></p>
-        <!-- End of details-right -->
-      </div>
+      <!-- End of ewaste recycled segment-->
     </div>
 
     <!-- End of Recycling Tabulations -->
