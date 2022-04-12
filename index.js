@@ -105,7 +105,7 @@ app.post('/sign-up', (request, response) => {
     // Currently process sends user to login page after they have signed up
     // Consider building in process to allow user know that either they have signed up successfully
     // Or allow them to login access dashboard immediately.
-    response.redirect('login-sign-up');
+    response.redirect('/login-sign-up');
   });
 });
 
@@ -146,31 +146,50 @@ app.post('/login', (request, response) => {
       response.cookie('username', queryResult.rows[0].name);
       response.cookie('userid', queryResult.rows[0].id);
       // end the request-response cycle
-      response.redirect('dashboard'); }
+      console.log('this is admin id');
+      console.log(request.cookies.userid);
+      if (queryResult.rows[0].id === 1) {
+        response.redirect('/admin');
+      }
+      response.redirect('/dashboard');
+    }
   });
+});
+
+app.get('/logout', (request, response) => {
+  response.clearCookie('loggedInHash');
+  response.clearCookie('username');
+  response.clearCookie('userid');
+  response.redirect('/login-sign-up');
 });
 
 app.get('/dashboard', (request, response) => {
   // from the cookie, retrieve all information about the user to output at dashboard
   const retrieveUserId = request.cookies.userid;
-  // definitely have to do somekind of promise here
-  let data;
   let username;
+  let usermobile;
+  let useremail;
+  let userstreet;
+  let userblock;
+  let userunit;
+  let userpostal;
   let totalPaperQuantity = 0;
   let totalMetalQuantity = 0;
   let totalTextileQuantity = 0;
   let totalEwasteQuantity = 0;
   let totalCarbonSaved = 0;
   let totalTreesSaved = 0;
-  console.log(data);
   let sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
   // we'll grab the username first
   pool.query(sqlQuery)
     .then((result) => {
-      // console.log(result);
-      data = result.rows[0];
-      console.log(data);
-      username = data.name;
+      username = result.rows[0].name;
+      usermobile = result.rows[0].mobile;
+      useremail = result.rows[0].email;
+      userstreet = result.rows[0].street;
+      userblock = result.rows[0].block;
+      userunit = result.rows[0].unit;
+      userpostal = result.rows[0].postal;
     });
   // I have to collate the total quantity of a specific material_type starting from paper
   sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Paper' AND user_id  = ${retrieveUserId})`;
@@ -229,12 +248,26 @@ app.get('/dashboard', (request, response) => {
         totalCarbon: totalCarbonSaved,
         totalTree: totalTreesSaved,
         user: username,
+        userMobile: usermobile,
+        userEmail: useremail,
+        userStreet: userstreet,
+        userBlock: userblock,
+        userUnit: userunit,
+        userPostal: userpostal,
       };
 
       console.log(`This is username: ${username}`);
       console.log(finalData);
       console.log('page renders');
       response.render('dashboard', { userdata: finalData });
+    });
+});
+
+app.post('/edit-profile', (request, response) => {
+  const sqlQuery = `UPDATE users SET name = '${request.body.name}', mobile = '${request.body.mobile}', email = '${request.body.email}', street = '${request.body.street}', block = '${request.body.block}', unit = '${request.body.unit}', postal = '${request.body.postal}'`;
+  pool.query(sqlQuery)
+    .then((result) => {
+      response.redirect('/dashboard');
     });
 });
 
@@ -247,16 +280,30 @@ app.post('/recycle', (request, response) => {
   const { item } = request.body;
   const { quantity } = request.body;
   const retrieveUserId = request.cookies.userid;
+  const orderStatus = 'unfulfilled';
   console.log(material);
   console.log(item);
   console.log(quantity);
   const inputData = [];
-  inputData.push(material, item, quantity, retrieveUserId);
+  inputData.push(material, item, quantity, orderStatus, retrieveUserId);
   console.log(inputData);
-  const sqlQuery = 'INSERT INTO recycle_order (material_type, item, quantity, user_id) VALUES ($1, $2, $3, $4)';
+  const sqlQuery = 'INSERT INTO recycle_order (material_type, item, quantity, order_status, user_id) VALUES ($1, $2, $3, $4, $5)';
   pool.query(sqlQuery, inputData, (submissionError, queryResult) => {
-    response.redirect('dashboard');
+    response.redirect('/dashboard');
   });
+});
+
+app.get('/admin', (request, response) => {
+  const sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
+  // we'll grab the username first
+  pool.query(sqlQuery)
+    .then((result) => {
+      const username = result.rows[0].name;
+      const finalData = {
+        user: username,
+      };
+      response.render('admin-dashboard', { userdata: finalData });
+    });
 });
 
 app.listen(3004);

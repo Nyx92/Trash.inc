@@ -100,6 +100,7 @@ body {
 .video-container {
   height: 700px;
   overflow: hidden;
+  position: relative;
 }
 
 .myvideo {
@@ -116,10 +117,14 @@ body {
   color: white;
 }
 
+.banners {
+  /* FIGURE OUT HOW TO SNAP BANNERS WITH THE VIDEO */
+}
+
 .banner-1 {
   font-size: 20px;
-  color: white;
   display: block;
+  color: white;
   padding: 30px 0px 30px max(78px, 48px);
   background: rgb(12, 12, 59);
   text-decoration: none;
@@ -127,8 +132,8 @@ body {
 
 .banner-2 {
   font-size: 20px;
-  color: white;
   display: block;
+  color: white;
   padding: 30px 0px 30px max(78px, 48px);
   background: black;
   text-decoration: none;
@@ -400,6 +405,8 @@ body {
   color: red;
 }
 
+/* dash-nav */
+
 .navbar-dashboard {
   background-color: white;
   height: 120px;
@@ -438,13 +445,10 @@ body {
   margin-right: 30px;
 }
 
-.profile-pic img,
-.profile-pic {
-  height: 80px;
-}
-
-.profile-pic {
-  margin-top: 20px;
+.logout {
+  margin-top: 42px;
+  text-decoration: none;
+  color: black;
 }
 
 .wrap-profile {
@@ -484,6 +488,62 @@ body {
   display: block;
   font-family: "Convergence", sans-serif;
   font-size: 20px;
+}
+
+.edit-profile-button {
+  width: 20%;
+  padding: 10px;
+  border-radius: 5px;
+  font: inherit;
+  /* margin auto first to center horizontally */
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  color: white;
+  background: #060b23;
+}
+
+.edit-profile-form {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  position: absolute;
+  background: rgb(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  z-index: 2;
+}
+
+.edit-form-container {
+  text-align: center;
+  width: 50%;
+  background: #060b23;
+  color: white;
+  border-radius: 4px;
+  position: relative;
+}
+
+.close-edit-profile-form {
+  position: absolute;
+  top: 0;
+  right: 14px;
+  font-size: 42px;
+  transform: rotate(45deg);
+  cursor: pointer;
+}
+
+.submit-button {
+  display: block;
+  width: 10%;
+  padding: 10px;
+  border-radius: 5px;
+  font: inherit;
+  /* margin auto first to center horizontally */
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .content-container-dash {
@@ -568,29 +628,6 @@ body {
   justify-content: center;
 }
 
-/* .carbon-footprint,
-.trees-planted,
-.paper-recycled,
-.textile-recycled,
-.metals-recycled,
-.ewaste-recycled {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  color: black;
-  font-size: 60;
-} */
-
-.carbon-icon,
-.tree-icon,
-.paper-icon,
-.metal-icon,
-.ewaste-icon,
-.textile-icon {
-  height: 180px;
-  padding: 20px;
-}
-
 /* recycle form */
 
 .recycle-form {
@@ -614,6 +651,7 @@ body {
   width: 120px;
   height: 30px;
   border-radius: 5px;
+  text-align: center;
 }
 
 #level2 {

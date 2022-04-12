@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS recycle_order (
   material_type TEXT,
   item TEXT, 
   quantity INTEGER,
+  order_status TEXT,
   user_id INTEGER
 );
 

@@ -11,8 +11,6 @@ CREATE TABLE IF NOT EXISTS users (
   postal TEXT, 
   password TEXT);
 
-INSERT INTO users (name, mobile, email, street, block, unit, postal, password) VALUES ('Mr Hello', 99887766, 'hello@gmail.com', 'Serangoon North Ave 4', '537', '#12-147', 'S550537', 'password');
-
 
 
 

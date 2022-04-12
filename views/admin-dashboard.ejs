@@ -1,0 +1,118 @@
+<%- include('dash-nav'); -%>
+
+<!-- Banners -->
+<div class="wrap-profile">
+  <div class="banner-dash"></div>
+  <div class="profile-details">
+    <a class="profile-pic-dash" href="http://localhost:3004/dashboard">
+      <img src="./buttercups.jpg" alt="profile-pic" />
+    </a>
+    <p class="username"><strong><%= userdata.user %></strong></p>
+    <button class="edit-profile-button">Edit Profile</button>
+  </div>
+</div>
+<!-- End of Banners -->
+
+<div class="edit-profile-form">
+  <div class="edit-form-container">
+    <div class="close-edit-profile-form">+</div>
+    <div>
+      <h1>EDIT PROFILE</h1>
+    </div>
+    <form action="/edit-profile" method="POST">
+      <p>Particulars</p>
+      <label for="name"></label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="<%= userdata.user %>"
+        required
+      />
+      <label for="mobile"></label>
+      <input
+        type="tel"
+        id="mobile"
+        name="mobile"
+        value="<%= userdata.userMobile %>"
+        required
+      />
+      <label for="email"></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value="<%= userdata.userEmail %>"
+        required
+      />
+      <p>Address</p>
+      <label for="street"></label>
+      <input
+        type="text"
+        id="street"
+        name="street"
+        value="<%= userdata.userStreet %>"
+        required
+      />
+      <label for="block"></label>
+      <input
+        type="number"
+        id="block"
+        name="block"
+        value="<%= userdata.userBlock %>"
+        required
+      />
+      <label for="unit"></label>
+      <input
+        type="text"
+        id="unit"
+        name="unit"
+        value="<%= userdata.userUnit %>"
+        required
+      />
+      <label for="postal"></label>
+      <input
+        type="text"
+        id="postal"
+        name="postal"
+        value="<%= userdata.userPostal %>"
+        required
+      />
+      <input class="submit-button" type="submit" value="Submit" />
+    </form>
+    <!-- end of edit-form-container -->
+  </div>
+  <!-- end of edit-form -->
+</div>
+
+<script>
+  document
+    .querySelector(".edit-profile-button")
+    .addEventListener("click", function () {
+      document.querySelector(".edit-profile-form").style.display = "flex";
+    });
+
+  document
+    .querySelector(".close-edit-profile-form")
+    .addEventListener("click", function () {
+      document.querySelector(".edit-profile-form").style.display = "none";
+    });
+</script>
+
+<!-- Content Container -->
+<div class="content-container-dash">
+  <div class="info">
+    <h2>Table of recycle orders</h2>
+  </div>
+
+  <!-- Recycling Tabulations -->
+  <section class="recycling-tabulations">
+    <!-- carbon-footprint segment-->
+
+    <!-- End of Recycling Tabulations -->
+  </section>
+
+  <!-- End of Content Container -->
+</div>
+
+<%- include('footer'); -%>
