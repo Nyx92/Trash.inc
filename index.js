@@ -150,8 +150,9 @@ app.post('/login', (request, response) => {
       console.log(request.cookies.userid);
       if (queryResult.rows[0].id === 1) {
         response.redirect('/admin');
+      } else {
+        response.redirect('/dashboard');
       }
-      response.redirect('/dashboard');
     }
   });
 });
@@ -294,15 +295,18 @@ app.post('/recycle', (request, response) => {
 });
 
 app.get('/admin', (request, response) => {
-  const sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
-  // we'll grab the username first
+  const retrieveUserName = request.cookies.username;
+  // Taking all orders and adding user details
+  const sqlQuery = `SELECT users.name, users.street, users.block, users.unit, users.postal, recycle_order.material_type, recycle_order.item, recycle_order.quantity, recycle_order.order_status, recycle_order.user_id 
+  FROM recycle_order
+  INNER JOIN users
+  ON recycle_order.user_id = users.id`;
   pool.query(sqlQuery)
     .then((result) => {
-      const username = result.rows[0].name;
-      const finalData = {
-        user: username,
-      };
-      response.render('admin-dashboard', { userdata: finalData });
+      result.rows.unshift({ user: retrieveUserName });
+      const data = { finalData: result.rows };
+      console.log(data);
+      response.render('admin-dashboard', data);
     });
 });
 

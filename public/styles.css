@@ -689,3 +689,42 @@ body {
   border-radius: 5px;
   font: inherit;
 }
+
+/* admin dashboard */
+
+.content-container-dash-admin {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+#recycling-table {
+  width: 80%;
+  margin: auto;
+}
+
+td,
+th {
+  border: 1px solid black;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.input-box {
+  width: 80%;
+  margin: auto;
+}
+
+#myInput {
+  /* background-image: url("/css/searchicon.png");  
+  background-position: 10px 10px;
+  background-repeat: no-repeat; */
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 50px;
+}
