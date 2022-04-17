@@ -16,7 +16,7 @@
 <!-- Content Container -->
 <div class="content-container-dash-admin">
   <div class="info">
-    <h2>Table of recycle orders</h2>
+    <h2>Table of unfulfilled recycle orders</h2>
   </div>
 
   <div class="input-box">
@@ -35,7 +35,7 @@
 
     <table id="recycling-table">
       <tr>
-        <form id = "fulfill-form" action="/fulfill" method="POST"></form>
+        <form id = "fulfill-form" action="/fulfill" method="POST">
         <!-- pick an array item, iterate through its keys to create the columns -->
         <% for (let i = 0; i < Object.keys(finalData[1]).length; i++) { %>
         <th class="headers"><%= Object.keys(finalData[1])[i] %></th>
@@ -47,26 +47,24 @@
       
         <!-- loop through each object in the finalData array (i.e., each recycle order entry) -->
         <% for (let i = 1; i < finalData.length; i++) { %>
-        <tr>
+        <tr class = "table-body">
           <!-- loop through each key in the object to output the value -->
           <% Object.values(finalData[i]).forEach((x) => { %>
           <td><%= x %></td>
           <% }) %>
           <td>
+            <label class= "checkboxes" for = "fulfill-checkbox<%= i %>">Fulfill</label>
             <input
               type="checkbox"
               id="fulfill-checkbox<%= i %>"
               name="fulfill"
               value="<%= i %>"
-            />
-            <label for="fulfill-checkbox<%= i %>"> Fulfill</label>
+              />
           </td>
         </tr>
         <% } %>
       </form>
       <!-- add a container which tabulates quantity -->
-
-
     </table>
     <!-- End of Recycling Table -->
   </section>
@@ -81,7 +79,7 @@
     let input = document.getElementById("myInput");
     let filter = input.value.toUpperCase();
     let table = document.getElementById("recycling-table");
-    let tr = table.getElementsByTagName("tr");
+    let tr = table.getElementsByClassName("table-body");
 
     for (i = 0; i < tr.length; i++) {
       td = tr[i];

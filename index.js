@@ -297,7 +297,7 @@ app.post('/recycle', (request, response) => {
 app.get('/admin', (request, response) => {
   const retrieveUserName = request.cookies.username;
   // Taking all orders and adding user details
-  const sqlQuery = `SELECT users.name, users.street, users.block, users.unit, users.postal, recycle_order.material_type, recycle_order.item, recycle_order.quantity, recycle_order.order_status, recycle_order.user_id 
+  const sqlQuery = `SELECT users.name, users.street, users.block, users.unit, users.postal, recycle_order.material_type, recycle_order.item, recycle_order.quantity, recycle_order.order_status, recycle_order.user_id, recycle_order.id
   FROM recycle_order
   INNER JOIN users
   ON recycle_order.user_id = users.id`;
@@ -305,9 +305,21 @@ app.get('/admin', (request, response) => {
     .then((result) => {
       result.rows.unshift({ user: retrieveUserName });
       const data = { finalData: result.rows };
-      console.log(data);
+      // console.log(data);
       response.render('admin-dashboard', data);
     });
+});
+
+app.post('/fulfill', (request, response) => {
+  const fulfillOrderArray = request.body.fulfill;
+  // Loop through the array and edit the table accordingly
+  for (let i = 0; i < fulfillOrderArray.length; i++) {
+    const sqlQuery = `UPDATE Customers
+SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+WHERE CustomerID = 1;`;
+  }
+
+  response.redirect('/admin');
 });
 
 app.listen(3004);

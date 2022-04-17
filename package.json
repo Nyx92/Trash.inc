@@ -10,7 +10,8 @@
     "db:show": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/show-user.sql",
     "db:create_recycle": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/create-recycle-order.sql",
     "db:delete_recycle": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/delete-recycle-order.sql",
-    "db:show_recycle": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/show-recycle-order.sql"
+    "db:show_recycle": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/show-recycle-order.sql",
+    "db:create_filled": "psql -d trash -f /home/bubblepuddings/Ubuntu-Bootcamp/trashme/trash/sql-files/create-filled-recycle-order.sql"
   },
   "repository": {
     "type": "git",

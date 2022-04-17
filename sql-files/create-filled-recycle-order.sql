@@ -1,6 +1,6 @@
 -- Remember that the command is npm run db: create
 
-CREATE TABLE IF NOT EXISTS recycle_order (
+CREATE TABLE IF NOT EXISTS recycle_order_filled (
   id SERIAL PRIMARY KEY, 
   material_type TEXT,
   item TEXT, 
