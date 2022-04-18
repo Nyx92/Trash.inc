@@ -160,21 +160,50 @@ body {
 .recycle-button-landing,
 .disposal-button-landing,
 .re-sell-button-landing {
+  width: 15%;
+  padding: 10px;
+  border-radius: 5px;
+  font: inherit;
+  /* margin auto first to center horizontally */
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
   color: white;
-  width: 200px;
-  border-radius: 25px;
-  background: black;
-  padding: 20px;
+  background: #060b23;
 }
 
-.first-panel-section-1,
-.first-panel-section-2 {
+.disposal-panel {
+  display: none;
+}
+
+.resell-panel {
+  display: none;
+}
+
+.details-right {
+  width: 35%;
+}
+
+.recycle-panel-section-1,
+.disposal-panel-section-1,
+.resell-panel-section-1 {
   width: 60%;
   height: 30%;
   display: flex;
   justify-content: space-between;
   border-bottom: solid grey;
   margin: auto;
+  padding-top: 20px;
+  padding-bottom: 100px;
+}
+
+.recycle-icon,
+.resell-icon {
+  height: 200px;
+}
+
+.bin-icon {
+  height: 220px;
 }
 
 .footer {
@@ -340,12 +369,28 @@ body {
 #block,
 #unit,
 #postal,
-#password {
+#password,
+#image {
   display: block;
   /* height of each field */
   padding: 10px;
   padding-right: 50px;
   padding-left: 50px;
+  margin: auto;
+  /* adding space between each field */
+  margin-bottom: 5px;
+  text-align: center;
+  border: solid #e1e5ee;
+  border-radius: 5px;
+  font-family: inherit;
+  background: none;
+  color: white;
+}
+
+#image {
+  display: block;
+  /* height of each field */
+  padding: 10px;
   margin: auto;
   /* adding space between each field */
   margin-bottom: 5px;
@@ -364,7 +409,8 @@ body {
 #block:hover,
 #unit:hover,
 #postal:hover,
-#password:hover {
+#password:hover,
+#image:hover {
   border: solid #adffff;
 }
 
@@ -692,9 +738,15 @@ body {
 
 /* admin dashboard */
 
-.content-container-dash-admin {
+.content-container-unfulfilled-dash-admin {
   width: 100%;
   margin-bottom: 50px;
+}
+
+.content-container-fulfilled-dash-admin {
+  width: 100%;
+  margin-bottom: 50px;
+  display: none;
 }
 
 #recycling-table {
@@ -727,4 +779,38 @@ tr:nth-child(even) {
   padding: 12px 20px 12px 40px;
   border: 1px solid #ddd;
   margin-bottom: 50px;
+}
+
+.table-title {
+  padding-top: 80px;
+  padding-bottom: 50px;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+.table-buttons-wrapper {
+  width: 80%;
+  margin: auto;
+  padding-top: 120px;
+  padding-bottom: 30px;
+}
+
+.table-button-fulfilled,
+.table-button-unfulfilled,
+.sort-postal-button {
+  width: 15%;
+  padding: 10px;
+  border-radius: 5px;
+  font: inherit;
+  /* margin auto first to center horizontally */
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  color: white;
+  background: #060b23;
+}
+
+.table-body-2 {
+  background-color: red;
 }

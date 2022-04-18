@@ -305,21 +305,25 @@ app.get('/admin', (request, response) => {
     .then((result) => {
       result.rows.unshift({ user: retrieveUserName });
       const data = { finalData: result.rows };
-      // console.log(data);
       response.render('admin-dashboard', data);
     });
 });
 
 app.post('/fulfill', (request, response) => {
   const fulfillOrderArray = request.body.fulfill;
+  console.log(fulfillOrderArray);
   // Loop through the array and edit the table accordingly
   for (let i = 0; i < fulfillOrderArray.length; i++) {
-    const sqlQuery = `UPDATE Customers
-SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
-WHERE CustomerID = 1;`;
+    const sqlQuery = `UPDATE recycle_order
+    SET order_status = 'fulfilled'
+    WHERE id = ${fulfillOrderArray[i]}; `;
+    pool.query(sqlQuery)
+      .then((result) => {
+        if (i === fulfillOrderArray.length - 1) {
+          response.redirect('/admin');
+        }
+      });
   }
-
-  response.redirect('/admin');
 });
 
 app.listen(3004);

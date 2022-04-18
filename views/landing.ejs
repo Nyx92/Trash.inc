@@ -34,25 +34,21 @@
         all-in-one platform.
       </h2>
     </div>
-    <button class="recycle-button-landing" onclick="myFunction1()" href="">
-      Recycle
-    </button>
-    <button class="disposal-button-landing" onclick="myFunction2()" href="">
-      Disposal
-    </button>
-    <button class="re-sell-button-landing" onclick="myFunction3()" href="">
-      Re-Sell
-    </button>
+    <button class="recycle-button-landing">Recycle</button>
+    <button class="disposal-button-landing">Disposal</button>
+    <button class="re-sell-button-landing">Re-Sell</button>
   </section>
   <!-- End of Section 1 -->
 
+  <!-- Recycle Panel-->
   <!-- First Panel -->
-  <div class="first-panel">
+  <div class="recycle-panel">
     <!-- First Panel section-1-->
-    <section class="first-panel-section-1">
+    <section class="recycle-panel-section-1">
       <!-- title-left -->
       <div class="title-left">
         <h2>Recycle</h2>
+        <img class = "recycle-icon" src="./recycle-icon.png">
       </div>
       <!-- End of title-left -->
       <!-- details-right -->
@@ -62,29 +58,38 @@
             <strong>Collection</strong> <br /><br />We will collect all the
             items right at your doorstep.
           </p>
+          <br />
         </div>
         <div>
           <p>
             <strong>Processing Factories</strong> <br /><br />Items will be
             sorted and sent to respective processing plants.
           </p>
+          <br />
         </div>
         <div>
           <p>
             <strong>Re-purposed</strong> <br /><br />Processed materials will be
             repurposed.
           </p>
+          <br />
         </div>
       </div>
       <!-- End of details-right -->
     </section>
     <!-- End of First Panel section-1-->
+  </div>
+  <!-- End of Recycle Panel -->
 
-    <!-- First Panel section-2-->
-    <section class="first-panel-section-2">
+  <!-- Disposal Panel-->
+  <!-- Second Panel -->
+  <div class="disposal-panel">
+    <!-- Second Panel section-1-->
+    <section class="disposal-panel-section-1">
       <!-- title-left -->
       <div class="title-left">
-        <h2>Recycle</h2>
+        <h2>Disposal</h2>
+         <img class = "bin-icon" src="./bin-icon.png">
       </div>
       <!-- End of title-left -->
       <!-- details-right -->
@@ -94,27 +99,106 @@
             <strong>Collection</strong> <br /><br />We will collect all the
             items right at your doorstep.
           </p>
+          <br />
         </div>
         <div>
           <p>
-            <strong>Processing Factories</strong> <br /><br />Items will be
-            sorted and sent to respective processing plants.
+            <strong>Moving</strong> <br /><br />We have the right equipment to move all kinds of items!
           </p>
+          <br />
         </div>
         <div>
           <p>
-            <strong>Re-purposed</strong> <br /><br />Processed materials will be
-            repurposed.
+            <strong>Disposal</strong> <br /><br />All items will be properly disposed at our factories.
           </p>
+          <br />
         </div>
       </div>
       <!-- End of details-right -->
     </section>
-    <!-- End of First Panel section-2-->
+    <!-- End of Second Panel section-1-->
   </div>
+  <!-- End of Disposal Panel -->
 
-  <!-- End of Content Container -->
+<!-- Re-sell Panel-->
+  <!-- Third Panel -->
+  <div class="resell-panel">
+    <!-- Second Panel section-1-->
+    <section class="resell-panel-section-1">
+      <!-- title-left -->
+      <div class="title-left">
+        <h2>Re-Sell</h2>
+        <img class = "resell-icon" src="./resell-icon.png">
+      </div>
+      <!-- End of title-left -->
+      <!-- details-right -->
+      <div class="details-right">
+        <div>
+          <p>
+            <strong>Sell your old items</strong> <br /><br />Turn your old items into cash!
+          </p>
+          <br />
+        </div>
+        <div>
+          <p>
+            <strong>Vintage Goods </strong> <br /><br />We'll buy your vintage goods!
+          </p>
+          <br />
+        </div>
+        <div>
+          <p>
+            <strong>Buy</strong> <br /><br />Check out our vintage goods store!
+          </p>
+          <br />
+        </div>
+      </div>
+      <!-- End of details-right -->
+      </section>
+    <!-- End of Third Panel section-1-->
+    </div>
+  <!-- End of Re-sell Panel -->
+  </div>  
+ <!-- End of Content Container -->
 </div>
-<!-- End of First Panel -->
+
+
+<script>
+  // When recycle panel button is clicked
+  document
+    .querySelector(".recycle-button-landing")
+    .addEventListener("click", function () {
+      //show recycle panel
+      document.querySelector(".recycle-panel").style.display = "";
+      //hide disposal panel
+      document.querySelector(".disposal-panel").style.display = "none";
+      //hide re-sell panel
+      document.querySelector(".resell-panel").style.display = "none";
+    });
+
+  // When disposal panel button is clicked
+  document
+    .querySelector(".disposal-button-landing")
+    .addEventListener("click", function () {
+      //show disposal panel
+      document.querySelector(".disposal-panel").style.display = "block";
+      //hide recycle panel
+      document.querySelector(".recycle-panel").style.display = "none";
+      //hide re-sell panel
+      document.querySelector(".resell-panel").style.display = "none";
+    });
+
+  // When re-sell panel button is clicked
+  document
+    .querySelector(".re-sell-button-landing")
+    .addEventListener("click", function () {
+      //show re-sell panel
+      document.querySelector(".resell-panel").style.display = "block";
+      //hide disposal panel
+      document.querySelector(".disposal-panel").style.display = "none";
+      //hide recycle panel
+      document.querySelector(".recycle-panel").style.display = "none";
+    });
+
+</script>
 
 <%- include('footer'); -%>

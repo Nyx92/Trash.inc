@@ -305,122 +305,52 @@ app.get('/species/:index', (request, response) => {
   });
 });
 
-<div class="edit-profile-form">
-  <div class="edit-form-container">
-    <div class="close-edit-profile-form">+</div>
-    <div>
-      <h1>EDIT PROFILE</h1>
-    </div>
-    <form action="/edit-profile" method="POST">
-      <p>Particulars</p>
-      <label for="name"></label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        value="<%= userdata.user %>"
-        required
-      />
-      <label for="mobile"></label>
-      <input
-        type="tel"
-        id="mobile"
-        name="mobile"
-        value="<%= userdata.userMobile %>"
-        required
-      />
-      <label for="email"></label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        value="<%= userdata.userEmail %>"
-        required
-      />
-      <p>Address</p>
-      <label for="street"></label>
-      <input
-        type="text"
-        id="street"
-        name="street"
-        value="<%= userdata.userStreet %>"
-        required
-      />
-      <label for="block"></label>
-      <input
-        type="number"
-        id="block"
-        name="block"
-        value="<%= userdata.userBlock %>"
-        required
-      />
-      <label for="unit"></label>
-      <input
-        type="text"
-        id="unit"
-        name="unit"
-        value="<%= userdata.userUnit %>"
-        required
-      />
-      <label for="postal"></label>
-      <input
-        type="text"
-        id="postal"
-        name="postal"
-        value="<%= userdata.userPostal %>"
-        required
-      />
-      <input class="submit-button" type="submit" value="Submit" />
-    </form>
-    <!-- end of edit-form-container -->
-  </div>
-  <!-- end of edit-form -->
-</div>
 
-<script>
-  document
-    .querySelector(".edit-profile-button")
-    .addEventListener("click", function () {
-      document.querySelector(".edit-profile-form").style.display = "flex";
-    });
+NOT SURE WHY THIS DONT WORK
+  <!-- Filter finalData to show unfufilled only -->
+      <%  const filteredData = finalData.filter( x => x.order_status = 'unfulfilled') %>
+      <% console.log("does this filter?") %>
+      <% console.log(filteredData) %>
 
-  document
-    .querySelector(".close-edit-profile-form")
-    .addEventListener("click", function () {
-      document.querySelector(".edit-profile-form").style.display = "none";
-    });
-</script>
 
-<!-- Content Container -->
-<div class="content-container-dash">
-  <div class="info">
-    <h2>Table of recycle orders</h2>
-  </div>
+     <!-- loop through each object in the finalData array (i.e., each recycle order entry) -->
+        <% for (let i = 0; i < filteredData.length; i++) { %>
+        <tr class = "table-body-2">
+          <!-- loop through each key in the object to output the value -->
+          <% Object.values(filteredData[i]).forEach((x) => { %>
+          <td><%= x %></td>
+          <% }) %>
+          <td>
+            <label class= "checkboxes" for = "fulfill-checkbox<%= i %>">Fulfill</label>
+            <input
+              type="checkbox"
+              id="fulfill-checkbox<%= i %>"
+              name="fulfill"
+              value="<%= filteredData[i].id %>"
+              />
+          </td>
+        </tr>
+        <% } %>
 
-  <!-- Recycling Table -->
-  <section class="recycling-table">
-    <!-- Table columns-->
 
-    <!-- <table>
-      <tr>
-        <th>UserID</th>
-        <th>Material Type</th>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Order Status</th>
-        <th>District</th>
-        <th>Action</th>
-      </tr> -->
-    <!-- User id-->
-    <!-- <tr>
-        
-        <% for (let i = 0; i < data.length; i++) { %>
-          <td> <%= data.user %></td>
-         <% } %>
-      </tr> -->
 
-    <!-- End of Recycling Table -->
-  </section>
-
-  <!-- End of Content Container -->
-</div>
+      <% console.log("LEGGO") %>
+  <!-- Filter finalData to show unfufilled only -->
+    <!-- Loop through all items in the finalData array -->
+    <% for (let i = 0; i < finalData.length; i++) { %>
+        <% let counter = 0 %>
+        <!-- Loop through all the keys in the item to look for value: fulfilled -->
+        <% Object.values(finalData[i]).forEach((x) => { %>
+          <!-- increase counter if a value is found  -->
+          <% if(x === 'fulfilled') { %>
+            <% counter += 1 %>
+           <% } %>
+        <% }) %>
+        <!-- if counter is 1 it means that 'fulfilled' is found-->
+        <% if(counter === 1) { %>
+          <!-- remove it from data-->
+           <% console.log(`this pos deleted: ${i}`) %>
+           <% finalData.splice(i, 1) %>
+        <% } %>
+      <% } %>
+    <% console.log("exit loop!!!") %>

@@ -11,4 +11,3 @@ CREATE TABLE IF NOT EXISTS users (
   postal TEXT, 
   password TEXT);
 
-
