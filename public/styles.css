@@ -749,7 +749,8 @@ body {
   display: none;
 }
 
-#recycling-table {
+#recycling-table,
+#recycling-table2 {
   width: 80%;
   margin: auto;
 }
@@ -765,12 +766,14 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
-.input-box {
+.input-box,
+.input-box2 {
   width: 80%;
   margin: auto;
 }
 
-#myInput {
+#myInput,
+#myInput2 {
   /* background-image: url("/css/searchicon.png");  
   background-position: 10px 10px;
   background-repeat: no-repeat; */
@@ -809,8 +812,4 @@ tr:nth-child(even) {
   margin-bottom: 30px;
   color: white;
   background: #060b23;
-}
-
-.table-body-2 {
-  background-color: red;
 }

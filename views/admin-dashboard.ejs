@@ -33,12 +33,13 @@
 
 
 <!-- Content Container for Unfulfilled recycle orders  -->
-
 <div class="content-container-unfulfilled-dash-admin">
+
   <div class="table-title">
     <h2>Table of unfulfilled recycle orders</h2>
   </div>
 
+  <!-- input box to filter data -->
   <div class="input-box">
     <!-- once someone types something in the input, function activates -->
     <input
@@ -49,11 +50,12 @@
     />
   </div>
 
-  <!-- Recycling Table -->
+  <!-- Unfulfilled Recycling Table -->
   <section class="recycling-table-section">
-    <!-- Table columns-->
-
+  
     <table id="recycling-table">
+
+      <!-- table columns -->
       <tr>
         <form id = "fulfill-form" action="/fulfill" method="POST">
         <!-- pick an array item, iterate through its keys to create the columns -->
@@ -65,15 +67,24 @@
         </th>
       </tr>
 
+    <!-- filter finalData to only output order_status = 'unfulfilled' -->
     <% const filteredDataUnfulfilled = finalData.filter((ele) => ele.order_status === 'unfulfilled'); %>
+    <!-- initialise global variable quantity -->
+    <% let totalQuantity = 0 %>
 
         <!-- loop through each object in the finalData array (i.e., each recycle order entry) -->
         <% for (let i = 0; i < filteredDataUnfulfilled.length; i++) { %>
         <tr class = "table-body">
           <!-- loop through each key in the object to output the value -->
-          <% Object.values(filteredDataUnfulfilled[i]).forEach((x) => { %>
-          <td><%= x %></td>
+          <% Object.keys(filteredDataUnfulfilled[i]).forEach((x) => { %>
+            <% if (x === 'quantity') { %>
+              <% totalQuantity += filteredDataUnfulfilled[i][x] %>    
+              <td class = "quantity-cell"><%= filteredDataUnfulfilled[i][x] %></td>
+            <% } else { %>
+                  <td><%= filteredDataUnfulfilled[i][x] %></td>
+                  <% } %>
           <% }) %>
+          <!-- Add another column of checkboxes -->
           <td>
             <label class= "checkboxes" for = "fulfill-checkbox<%= i %>">Fulfill</label>
             <input
@@ -83,19 +94,25 @@
               value="<%= filteredDataUnfulfilled[i].id %>"
               />
           </td>
+        <!-- end of table-body -->
         </tr>
         <% } %>
       </form>
-      <!-- add a container which tabulates quantity -->
+      <!-- End of recycling table 'unfulfilled' -->
     </table>
     <!-- End of Recycling Table -->
   </section>
-  <!-- End of Content Container -->
+
+
+    <p id="tabulateQuantity"><%= totalQuantity %></p>
+  <!-- End of content-container-unfulfilled-dash-admin -->
 </div>
+
 
 <!-- Content Container for fulfilled recycle orders  -->
 
 <div class="content-container-fulfilled-dash-admin">
+
   <div class="table-title">
     <h2>Table of fulfilled recycle orders</h2>
   </div>
@@ -104,8 +121,8 @@
     <!-- once someone types something in the input, function activates -->
     <input
       type="text"
-      id="myInput"
-      onkeyup="myFunction()"
+      id="myInput2"
+      onkeyup="myFunction2()"
       placeholder="Filter by typing..."
     />
   </div>
@@ -114,7 +131,7 @@
   <section class="recycling-table-section">
     <!-- Table columns-->
 
-    <table id="recycling-table">
+    <table id="recycling-table2">
       <tr>
         <!-- pick an array item, iterate through its keys to create the columns -->
         <% for (let i = 0; i < Object.keys(finalData[1]).length; i++) { %>
@@ -122,27 +139,35 @@
         <% } %>
       </tr>
 
+    <!-- filter finalData to only output order_status = 'fulfilled' -->
     <% const filteredDataFulfilled = finalData.filter((ele) => ele.order_status === 'fulfilled'); %>
+    <!-- initialise global variable quantity -->
+    <% let quantity2 = 0 %>
+
 
         <!-- loop through each object in the finalData array (i.e., each recycle order entry) -->
         <% for (let i = 0; i < filteredDataFulfilled.length; i++) { %>
-        <tr class = "table-body">
+        <tr class = "table-body2">
           <!-- loop through each key in the object to output the value -->
-          <% Object.values(filteredDataFulfilled[i]).forEach((x) => { %>
-          <td><%= x %></td>
+          <% Object.keys(filteredDataFulfilled[i]).forEach((x) => { %>
+            <% if (x === 'quantity') { %>
+              <% quantity2 += filteredDataFulfilled[i][x] %>
+              <td class = "quantity-cell2"><%= filteredDataFulfilled[i][x] %></td>
+            <% } else { %>
+                  <td><%= filteredDataFulfilled[i][x] %></td>
+                  <% }  %>
           <% }) %>
         </tr>
-        <% } %>
-      <!-- add a container which tabulates quantity -->
-      
-      <div class="tabulate-quantity"></div>
-
-
-
-
+        <% } %>    
     </table>
     <!-- End of Recycling Table -->
-  </section>
+   </section>
+
+  
+      <div class="tabulate-quantity2">
+        <p id="quantity2"><%= quantity2 %></p>
+      </div>
+
   <!-- End of Content Container -->
 </div>
 
@@ -167,6 +192,51 @@
         }
       }
     }
+
+    //once the rows have been hidden (i.e., style.display = "none"), it is still searchable in the DOM
+    // Change the class of quantity cell for those rows which are hidden
+    // Change back the class of quantity cell for those rows which are no longer hidden
+      console.log( document.getElementsByClassName("quantity-cell"))
+      let arrayOfQuantityCells = document.getElementsByClassName("quantity-cell")
+      let newQuantity = 0;
+      for (let i = 0; i < arrayOfQuantityCells.length; i++) {
+        newQuantity += parseInt(arrayOfQuantityCells[i].innerHTML)
+      }
+      console.log("does this run?")
+      console.log("updated?")
+      console.log(`${newQuantity}`)
+      console.log(document.getElementById("tabulateQuantity").innerHTML)
+      document.getElementById("tabulateQuantity").innerHTML = newQuantity
+  }
+
+  function myFunction2() {
+    // Declare variables
+    let txtValue;
+    let input = document.getElementById("myInput2");
+    let filter = input.value.toUpperCase();
+    let table = document.getElementById("recycling-table2");
+    let tr = table.getElementsByClassName("table-body2");
+
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+
+       //once the rows have been hidden, we make the calculation
+      let arrayOfQuantityCells = document.getElementsByClassName("quantity-cell2")
+      // change quantity back to 0;
+      quantity = 0;
+      for (let i = 0; i < arrayOfQuantityCells.length; i++) {
+        quantity += arrayOfQuantityCells[i].innerHTML
+      }
+      console.log("does this run?")
   }
   
   // When unfullfilled button is clicked
@@ -192,18 +262,6 @@
       //hide unfulfilled table
       document.querySelector('.content-container-unfulfilled-dash-admin').style.display = "none";
     }) 
-
-    function sortTable() {
-      let table
-      let rows
-      let switching
-      let i
-      let x
-      let y
-      let shouldSwitch;
-      table = document.getElementById("myTable");
-    }
-
 
 
 </script>
