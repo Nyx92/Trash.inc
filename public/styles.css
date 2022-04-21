@@ -813,3 +813,14 @@ tr:nth-child(even) {
   color: white;
   background: #060b23;
 }
+
+#tabulateQuantity,
+#tabulateQuantity2 {
+  width: 20%;
+  padding: 10px;
+  background: #060b23;
+  color: white;
+  text-align: center;
+  margin: auto;
+  margin-top: 50px;
+}

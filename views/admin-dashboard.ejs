@@ -79,7 +79,8 @@
           <% Object.keys(filteredDataUnfulfilled[i]).forEach((x) => { %>
             <% if (x === 'quantity') { %>
               <% totalQuantity += filteredDataUnfulfilled[i][x] %>    
-              <td class = "quantity-cell"><%= filteredDataUnfulfilled[i][x] %></td>
+              <td id = <%=`quantity-cell${i}`%> class = "quantity-cell"> <%= filteredDataUnfulfilled[i][x] %> 
+              </td>
             <% } else { %>
                   <td><%= filteredDataUnfulfilled[i][x] %></td>
                   <% } %>
@@ -104,7 +105,7 @@
   </section>
 
 
-    <p id="tabulateQuantity"><%= totalQuantity %></p>
+    <p id="tabulateQuantity">Total Quantity: <%= totalQuantity %></p>
   <!-- End of content-container-unfulfilled-dash-admin -->
 </div>
 
@@ -152,7 +153,7 @@
           <% Object.keys(filteredDataFulfilled[i]).forEach((x) => { %>
             <% if (x === 'quantity') { %>
               <% quantity2 += filteredDataFulfilled[i][x] %>
-              <td class = "quantity-cell2"><%= filteredDataFulfilled[i][x] %></td>
+              <td id = <%=`quantity-cell2${i}`%> class = "quantity-cell2"><%= filteredDataFulfilled[i][x] %></td>
             <% } else { %>
                   <td><%= filteredDataFulfilled[i][x] %></td>
                   <% }  %>
@@ -164,9 +165,7 @@
    </section>
 
   
-      <div class="tabulate-quantity2">
-        <p id="quantity2"><%= quantity2 %></p>
-      </div>
+ <p id="tabulateQuantity2">Total Quantity: <%= quantity2 %></p>
 
   <!-- End of Content Container -->
 </div>
@@ -181,32 +180,29 @@
     let table = document.getElementById("recycling-table");
     let tr = table.getElementsByClassName("table-body");
 
-    for (i = 0; i < tr.length; i++) {
+    for (let i = 0; i < tr.length; i++) {
       td = tr[i];
       if (td) {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
+          // Change back the class of quantity cell for those rows which are no longer hidden
+          document.getElementById(`quantity-cell${i}`).classList.add("quantity-cell")
         } else {
+          // Change the class of quantity cell for those rows which are hidden
+          document.getElementById(`quantity-cell${i}`).classList.remove("quantity-cell")
           tr[i].style.display = "none";
         }
       }
     }
 
     //once the rows have been hidden (i.e., style.display = "none"), it is still searchable in the DOM
-    // Change the class of quantity cell for those rows which are hidden
-    // Change back the class of quantity cell for those rows which are no longer hidden
-      console.log( document.getElementsByClassName("quantity-cell"))
       let arrayOfQuantityCells = document.getElementsByClassName("quantity-cell")
       let newQuantity = 0;
       for (let i = 0; i < arrayOfQuantityCells.length; i++) {
         newQuantity += parseInt(arrayOfQuantityCells[i].innerHTML)
       }
-      console.log("does this run?")
-      console.log("updated?")
-      console.log(`${newQuantity}`)
-      console.log(document.getElementById("tabulateQuantity").innerHTML)
-      document.getElementById("tabulateQuantity").innerHTML = newQuantity
+      document.getElementById("tabulateQuantity").innerHTML = `Total Quantity: ${newQuantity}`
   }
 
   function myFunction2() {
@@ -223,20 +219,21 @@
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
+          document.getElementById(`quantity-cell2${i}`).classList.add("quantity-cell2")
         } else {
+          document.getElementById(`quantity-cell2${i}`).classList.remove("quantity-cell2")
           tr[i].style.display = "none";
         }
       }
     }
 
-       //once the rows have been hidden, we make the calculation
+    //once the rows have been hidden (i.e., style.display = "none"), it is still searchable in the DOM
       let arrayOfQuantityCells = document.getElementsByClassName("quantity-cell2")
-      // change quantity back to 0;
-      quantity = 0;
+      let newQuantity = 0;
       for (let i = 0; i < arrayOfQuantityCells.length; i++) {
-        quantity += arrayOfQuantityCells[i].innerHTML
+        newQuantity += parseInt(arrayOfQuantityCells[i].innerHTML)
       }
-      console.log("does this run?")
+      document.getElementById("tabulateQuantity2").innerHTML = `Total Quantity: ${newQuantity}`
   }
   
   // When unfullfilled button is clicked

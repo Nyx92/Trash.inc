@@ -50,18 +50,32 @@ app.use((request, response, next) => {
   // set the default value
   console.log('user is not logged in');
   request.isUserLoggedIn = false;
+  request.isAdminLoggedIn = false;
 
   // check to see if the cookies you need exists
   if (request.cookies.loggedInHash && request.cookies.username) {
+    // if user, not admin
+    if (request.cookies.userid !== 1) {
     // get the hased value that should be inside the cookie
-    const hash = getHash(request.cookies.username);
+      const hash = getHash(request.cookies.username);
 
-    // test the value of the cookie
-    if (request.cookies.loggedInHash === hash) {
-      request.isUserLoggedIn = true;
-    }
-    if (request.isUserLoggedIn === true) {
-      console.log('user is logged in');
+      // test the value of the cookie
+      if (request.cookies.loggedInHash === hash) {
+        request.isUserLoggedIn = true;
+      }
+      if (request.isUserLoggedIn === true) {
+        console.log('user is logged in');
+      }
+    } else if (request.cookies.userid === 1) {
+      const hash = getHash(request.cookies.username);
+
+      // test the value of the cookie
+      if (request.cookies.loggedInHash === hash) {
+        request.isAdminLoggedIn = true;
+      }
+      if (request.isUserLoggedIn === true) {
+        console.log('admin is logged in');
+      }
     }
   }
   next();
@@ -149,7 +163,7 @@ app.post('/login', (request, response) => {
       console.log('this is admin id');
       console.log(request.cookies.userid);
       if (queryResult.rows[0].id === 1) {
-        response.redirect('/admin');
+
       } else {
         response.redirect('/dashboard');
       }
@@ -165,103 +179,107 @@ app.get('/logout', (request, response) => {
 });
 
 app.get('/dashboard', (request, response) => {
+  if (request.isUserLoggedIn === false) {
+    response.redirect('/login-sign-up');
+  } else {
   // from the cookie, retrieve all information about the user to output at dashboard
-  const retrieveUserId = request.cookies.userid;
-  let username;
-  let usermobile;
-  let useremail;
-  let userstreet;
-  let userblock;
-  let userunit;
-  let userpostal;
-  let totalPaperQuantity = 0;
-  let totalMetalQuantity = 0;
-  let totalTextileQuantity = 0;
-  let totalEwasteQuantity = 0;
-  let totalCarbonSaved = 0;
-  let totalTreesSaved = 0;
-  let sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
-  // we'll grab the username first
-  pool.query(sqlQuery)
-    .then((result) => {
-      username = result.rows[0].name;
-      usermobile = result.rows[0].mobile;
-      useremail = result.rows[0].email;
-      userstreet = result.rows[0].street;
-      userblock = result.rows[0].block;
-      userunit = result.rows[0].unit;
-      userpostal = result.rows[0].postal;
-    });
-  // I have to collate the total quantity of a specific material_type starting from paper
-  sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Paper' AND user_id  = ${retrieveUserId})`;
-  pool.query(sqlQuery)
-    .then((result) => {
-      result.rows.forEach((x) => {
-        for (const y in x) {
-          totalPaperQuantity += (x[y]);
-        }
+    const retrieveUserId = request.cookies.userid;
+    let username;
+    let usermobile;
+    let useremail;
+    let userstreet;
+    let userblock;
+    let userunit;
+    let userpostal;
+    let totalPaperQuantity = 0;
+    let totalMetalQuantity = 0;
+    let totalTextileQuantity = 0;
+    let totalEwasteQuantity = 0;
+    let totalCarbonSaved = 0;
+    let totalTreesSaved = 0;
+    let sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
+    // we'll grab the username first
+    pool.query(sqlQuery)
+      .then((result) => {
+        username = result.rows[0].name;
+        usermobile = result.rows[0].mobile;
+        useremail = result.rows[0].email;
+        userstreet = result.rows[0].street;
+        userblock = result.rows[0].block;
+        userunit = result.rows[0].unit;
+        userpostal = result.rows[0].postal;
       });
-      console.log(`This is totalPaperQuan: ${totalPaperQuantity}`);
-    });
-  // collate total metal
-  sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Metals' AND user_id  = ${retrieveUserId})`;
-  pool.query(sqlQuery)
-    .then((result) => {
-      result.rows.forEach((x) => {
-        for (const y in x) {
-          totalMetalQuantity += (x[y]);
-        }
+    // I have to collate the total quantity of a specific material_type starting from paper
+    sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Paper' AND user_id  = ${retrieveUserId})`;
+    pool.query(sqlQuery)
+      .then((result) => {
+        result.rows.forEach((x) => {
+          for (const y in x) {
+            totalPaperQuantity += (x[y]);
+          }
+        });
+        console.log(`This is totalPaperQuan: ${totalPaperQuantity}`);
       });
-      console.log(`This is totalMetalQuan: ${totalMetalQuantity}`);
-    });
-  // collate total Textile
-  sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Textile' AND user_id  = ${retrieveUserId})`;
-  pool.query(sqlQuery)
-    .then((result) => {
-      result.rows.forEach((x) => {
-        for (const y in x) {
-          totalTextileQuantity += (x[y]);
-        }
+    // collate total metal
+    sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Metals' AND user_id  = ${retrieveUserId})`;
+    pool.query(sqlQuery)
+      .then((result) => {
+        result.rows.forEach((x) => {
+          for (const y in x) {
+            totalMetalQuantity += (x[y]);
+          }
+        });
+        console.log(`This is totalMetalQuan: ${totalMetalQuantity}`);
       });
-      console.log(`This is totalTextileQuan: ${totalTextileQuantity}`);
-    });
-  // collate total E-waste
-  sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'E-waste' AND user_id  = ${retrieveUserId})`;
-  pool.query(sqlQuery)
-    .then((result) => {
-      result.rows.forEach((x) => {
-        for (const y in x) {
-          totalEwasteQuantity += (x[y]);
-        }
+    // collate total Textile
+    sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Textile' AND user_id  = ${retrieveUserId})`;
+    pool.query(sqlQuery)
+      .then((result) => {
+        result.rows.forEach((x) => {
+          for (const y in x) {
+            totalTextileQuantity += (x[y]);
+          }
+        });
+        console.log(`This is totalTextileQuan: ${totalTextileQuantity}`);
       });
-      console.log(`This is totalE-wasteQuan: ${totalEwasteQuantity}`);
-      // tabulate total quantity of carbon
-      totalCarbonSaved = totalPaperQuantity + totalEwasteQuantity + totalTextileQuantity + totalMetalQuantity;
-      // tabulate total tress saved
-      console.log(`This is totalCarbonSaved: ${totalCarbonSaved}`);
-      totalTreesSaved = 123;
+    // collate total E-waste
+    sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'E-waste' AND user_id  = ${retrieveUserId})`;
+    pool.query(sqlQuery)
+      .then((result) => {
+        result.rows.forEach((x) => {
+          for (const y in x) {
+            totalEwasteQuantity += (x[y]);
+          }
+        });
+        console.log(`This is totalE-wasteQuan: ${totalEwasteQuantity}`);
+        // tabulate total quantity of carbon
+        totalCarbonSaved = totalPaperQuantity + totalEwasteQuantity + totalTextileQuantity + totalMetalQuantity;
+        // tabulate total tress saved
+        console.log(`This is totalCarbonSaved: ${totalCarbonSaved}`);
+        totalTreesSaved = 123;
 
-      const finalData = {
-        totalPaper: totalPaperQuantity,
-        totalMetal: totalMetalQuantity,
-        totalTextile: totalTextileQuantity,
-        totalEwaste: totalEwasteQuantity,
-        totalCarbon: totalCarbonSaved,
-        totalTree: totalTreesSaved,
-        user: username,
-        userMobile: usermobile,
-        userEmail: useremail,
-        userStreet: userstreet,
-        userBlock: userblock,
-        userUnit: userunit,
-        userPostal: userpostal,
-      };
+        const finalData = {
+          totalPaper: totalPaperQuantity,
+          totalMetal: totalMetalQuantity,
+          totalTextile: totalTextileQuantity,
+          totalEwaste: totalEwasteQuantity,
+          totalCarbon: totalCarbonSaved,
+          totalTree: totalTreesSaved,
+          user: username,
+          userMobile: usermobile,
+          userEmail: useremail,
+          userStreet: userstreet,
+          userBlock: userblock,
+          userUnit: userunit,
+          userPostal: userpostal,
+        };
 
-      console.log(`This is username: ${username}`);
-      console.log(finalData);
-      console.log('page renders');
-      response.render('dashboard', { userdata: finalData });
-    });
+        console.log(`This is username: ${username}`);
+        console.log(finalData);
+        console.log('page renders');
+        response.render('dashboard', { userdata: finalData });
+      });
+  }
 });
 
 app.post('/edit-profile', (request, response) => {
@@ -295,18 +313,22 @@ app.post('/recycle', (request, response) => {
 });
 
 app.get('/admin', (request, response) => {
-  const retrieveUserName = request.cookies.username;
-  // Taking all orders and adding user details
-  const sqlQuery = `SELECT users.name, users.street, users.block, users.unit, users.postal, recycle_order.material_type, recycle_order.item, recycle_order.quantity, recycle_order.order_status, recycle_order.user_id, recycle_order.id
+  if (request.isAdminLoggedIn === false) {
+    response.redirect('/login-sign-up');
+  } else {
+    const retrieveUserName = request.cookies.username;
+    // Taking all orders and adding user details
+    const sqlQuery = `SELECT users.name, users.street, users.block, users.unit, users.postal, recycle_order.material_type, recycle_order.item, recycle_order.quantity, recycle_order.order_status, recycle_order.user_id, recycle_order.id
   FROM recycle_order
   INNER JOIN users
   ON recycle_order.user_id = users.id`;
-  pool.query(sqlQuery)
-    .then((result) => {
-      result.rows.unshift({ user: retrieveUserName });
-      const data = { finalData: result.rows };
-      response.render('admin-dashboard', data);
-    });
+    pool.query(sqlQuery)
+      .then((result) => {
+        result.rows.unshift({ user: retrieveUserName });
+        const data = { finalData: result.rows };
+        response.render('admin-dashboard', data);
+      });
+  }
 });
 
 app.post('/fulfill', (request, response) => {
