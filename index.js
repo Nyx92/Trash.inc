@@ -46,16 +46,38 @@ const getHash = (input) => {
   return shaObj.getHash('HEX');
 };
 
+// Middleware to check if user is logged in. Using this for now because checkAuth function
+// isn't working
 app.use((request, response, next) => {
   // set the default value
   console.log('user is not logged in');
   request.isUserLoggedIn = false;
-  request.isAdminLoggedIn = false;
 
   // check to see if the cookies you need exists
   if (request.cookies.loggedInHash && request.cookies.username) {
-    // if user, not admin
-    if (request.cookies.userid !== 1) {
+    // get the hased value that should be inside the cookie
+    const hash = getHash(request.cookies.username);
+
+    // test the value of the cookie
+    if (request.cookies.loggedInHash === hash) {
+      request.isUserLoggedIn = true;
+    }
+    if (request.isUserLoggedIn === true) {
+      console.log('user is logged in');
+    }
+  }
+  next();
+});
+
+// CheckAuth function isn't working. Middleware isn't executing
+const checkAuth = (request, response, next) => {
+  app.use((request, response, next) => {
+  // set the default value
+    console.log('user is not logged in');
+    request.isUserLoggedIn = false;
+
+    // check to see if the cookies you need exists
+    if (request.cookies.loggedInHash && request.cookies.username) {
     // get the hased value that should be inside the cookie
       const hash = getHash(request.cookies.username);
 
@@ -66,23 +88,16 @@ app.use((request, response, next) => {
       if (request.isUserLoggedIn === true) {
         console.log('user is logged in');
       }
-    } else if (request.cookies.userid === 1) {
-      const hash = getHash(request.cookies.username);
-
-      // test the value of the cookie
-      if (request.cookies.loggedInHash === hash) {
-        request.isAdminLoggedIn = true;
-      }
-      if (request.isUserLoggedIn === true) {
-        console.log('admin is logged in');
-      }
     }
-  }
+    next();
+  });
+  // temporary putting a next() here for now because checkAuth function is
+  // used in the dashboard path (though function isn't working)
   next();
-});
+};
 
 /**
-  * Render the home page with list of bird sightings
+  * Render landing page
  */
 app.get('/landing', (request, response) => {
   response.render('landing');
@@ -123,6 +138,9 @@ app.post('/sign-up', (request, response) => {
   });
 });
 
+/**
+  * Processes login details
+ */
 app.post('/login', (request, response) => {
   const { email } = request.body;
   const { password } = request.body;
@@ -163,7 +181,10 @@ app.post('/login', (request, response) => {
       console.log('this is admin id');
       console.log(request.cookies.userid);
       if (queryResult.rows[0].id === 1) {
-
+        // id = 1 is default admin user
+        // consider having another column to indicate if user or admin to allow
+        // for more admin accounts
+        response.redirect('/admin');
       } else {
         response.redirect('/dashboard');
       }
@@ -171,6 +192,9 @@ app.post('/login', (request, response) => {
   });
 });
 
+/**
+  * clears all cookies
+ */
 app.get('/logout', (request, response) => {
   response.clearCookie('loggedInHash');
   response.clearCookie('username');
@@ -178,11 +202,19 @@ app.get('/logout', (request, response) => {
   response.redirect('/login-sign-up');
 });
 
-app.get('/dashboard', (request, response) => {
+/**
+  * renders user dashboard
+ */
+app.get('/dashboard', checkAuth, (request, response) => {
+  // checkAuth is not working
+  console.log('coming back to dashboard?');
+  // if not logged in, send to login-sign-up page
   if (request.isUserLoggedIn === false) {
+    console.log('trying to enter login sign up');
     response.redirect('/login-sign-up');
   } else {
-  // from the cookie, retrieve all information about the user to output at dashboard
+    console.log('trying to enter user dashboard');
+    // from the cookie, retrieve all information about the user to output at dashboard
     const retrieveUserId = request.cookies.userid;
     let username;
     let usermobile;
@@ -198,7 +230,7 @@ app.get('/dashboard', (request, response) => {
     let totalCarbonSaved = 0;
     let totalTreesSaved = 0;
     let sqlQuery = `SELECT * FROM users WHERE id = ${retrieveUserId}`;
-    // we'll grab the username first
+    // assessing username data first
     pool.query(sqlQuery)
       .then((result) => {
         username = result.rows[0].name;
@@ -209,7 +241,7 @@ app.get('/dashboard', (request, response) => {
         userunit = result.rows[0].unit;
         userpostal = result.rows[0].postal;
       });
-    // I have to collate the total quantity of a specific material_type starting from paper
+    // Collate the total quantity of a specific material_type starting from paper
     sqlQuery = `SELECT quantity FROM recycle_order WHERE (material_type = 'Paper' AND user_id  = ${retrieveUserId})`;
     pool.query(sqlQuery)
       .then((result) => {
@@ -257,7 +289,7 @@ app.get('/dashboard', (request, response) => {
         // tabulate total tress saved
         console.log(`This is totalCarbonSaved: ${totalCarbonSaved}`);
         totalTreesSaved = 123;
-
+        // finalData contains all the data which we require to render user dashboard
         const finalData = {
           totalPaper: totalPaperQuantity,
           totalMetal: totalMetalQuantity,
@@ -273,27 +305,33 @@ app.get('/dashboard', (request, response) => {
           userUnit: userunit,
           userPostal: userpostal,
         };
-
-        console.log(`This is username: ${username}`);
-        console.log(finalData);
-        console.log('page renders');
         response.render('dashboard', { userdata: finalData });
       });
   }
 });
 
+/**
+  * edits user data
+ */
 app.post('/edit-profile', (request, response) => {
-  const sqlQuery = `UPDATE users SET name = '${request.body.name}', mobile = '${request.body.mobile}', email = '${request.body.email}', street = '${request.body.street}', block = '${request.body.block}', unit = '${request.body.unit}', postal = '${request.body.postal}'`;
+  const retrieveUserId = request.cookies.userid;
+  const sqlQuery = `UPDATE users SET name = '${request.body.name}', mobile = '${request.body.mobile}', email = '${request.body.email}', street = '${request.body.street}', block = '${request.body.block}', unit = '${request.body.unit}', postal = '${request.body.postal}' WHERE id = ${retrieveUserId}`;
   pool.query(sqlQuery)
     .then((result) => {
       response.redirect('/dashboard');
     });
 });
 
+/**
+  * renders recycle order form
+ */
 app.get('/recycle', (request, response) => {
   response.render('recycle');
 });
 
+/**
+  * adds to recycle_order table
+ */
 app.post('/recycle', (request, response) => {
   const { material } = request.body;
   const { item } = request.body;
@@ -312,8 +350,11 @@ app.post('/recycle', (request, response) => {
   });
 });
 
+/**
+  * renders admin dashboard
+ */
 app.get('/admin', (request, response) => {
-  if (request.isAdminLoggedIn === false) {
+  if (request.isUserLoggedIn === false) {
     response.redirect('/login-sign-up');
   } else {
     const retrieveUserName = request.cookies.username;
@@ -331,6 +372,9 @@ app.get('/admin', (request, response) => {
   }
 });
 
+/**
+  * updates recycle_order table data from unfulfilled to fulfilled
+ */
 app.post('/fulfill', (request, response) => {
   const fulfillOrderArray = request.body.fulfill;
   console.log(fulfillOrderArray);
