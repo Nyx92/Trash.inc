@@ -635,3 +635,11 @@ NOT SURE WHY THIS DONT WORK
 </script>
 
 <%- include('footer') -%>
+
+
+`quantity-cell${i} add-it quantity-cell`
+
+  checkAuth();
+  if (request.isUserLoggedIn === false) {
+    response.redirect('/login-sign-up');
+  } else {
