@@ -120,6 +120,12 @@ body {
   text-decoration: none;
 }
 
+.info {
+  padding-top: 80px;
+  padding-bottom: 50px;
+  width: 50%;
+}
+
 /* If the screen size is 670px wide or less */
 @media screen and (max-width: 670px) {
   .video-text-box {
@@ -148,16 +154,148 @@ body {
     font-size: 10px;
     padding: 20px 0px 20px max(78px, 48px);
   }
+
+  .info {
+    font-size: 10px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    width: 80%;
+  }
+
+  .recycle-button-landing,
+  .disposal-button-landing,
+  .re-sell-button-landing {
+    width: 30%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 10px;
+    /* margin auto first to center horizontally */
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15x;
+    color: white;
+    background: #060b23;
+  }
+
+  .section-1 {
+    width: 60%;
+    height: 30%;
+    margin: auto;
+    border-bottom: solid grey;
+  }
+
+  .title-left {
+    text-align: center;
+  }
+
+  .recycle-icon,
+  .resell-icon {
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .bin-icon {
+    height: 30%;
+    margin-bottom: 10px;
+  }
+
+  .details-right {
+    font-size: 10px;
+  }
+
+  .recycle-panel-section-1,
+  .disposal-panel-section-1,
+  .resell-panel-section-1 {
+    width: 60%;
+    height: 40%;
+    /* display: flex; */
+    justify-content: space-between;
+    border-bottom: solid grey;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 100px;
+  }
+
+  .content-container {
+    height: 700px;
+    width: 100%;
+  }
+
+  .footer-wrapper {
+    background-color: rgb(234, 239, 242);
+    height: 150px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .footer-final {
+    height: 70px;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgb(54, 58, 69);
+  }
+
+  .company-logo-2 {
+    height: 20%;
+  }
+
+  .footer-second-column,
+  .footer-third-column,
+  .footer-fourth-column,
+  .footer-first-column {
+    font-size: 10px;
+  }
+
+  .terms {
+    font-size: 10px;
+    color: white;
+    text-decoration: none;
+  }
+
+  .copyright {
+    font-size: 10px;
+  }
+
+  .fa-facebook {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(59, 89, 152);
+  }
+
+  .fa-instagram {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(18, 86, 136);
+  }
+
+  .fa-twitter {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(85, 172, 238);
+  }
+
+  .google-play {
+    display: none;
+  }
+
+  .apple-store {
+    display: none;
+  }
 }
 
-/* If the screen size is 601 wide or more */
+/* If the screen size is 671 wide or more */
 @media screen and (min-width: 671px) {
   .video-text-box {
     font-size: 15px;
   }
 
   .video-container {
-    height: 300px;
+    height: 350px;
     overflow: hidden;
     position: relative;
   }
@@ -167,6 +305,273 @@ body {
     top: 80%;
     padding-left: max(78px, 48px);
     color: white;
+  }
+  .recycle-button-landing,
+  .disposal-button-landing,
+  .re-sell-button-landing {
+    width: 25%;
+    padding: 10px;
+    border-radius: 5px;
+    font: inherit;
+    /* margin auto first to center horizontally */
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: white;
+    background: #060b23;
+  }
+
+  .section-1 {
+    width: 60%;
+    height: 35%;
+    margin: auto;
+    border-bottom: solid grey;
+  }
+
+  .info {
+    font-size: 15px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    width: 80%;
+  }
+
+  .details-right {
+    font-size: 15px;
+  }
+
+  .recycle-icon,
+  .resell-icon {
+    height: 150px;
+  }
+
+  .bin-icon {
+    height: 180px;
+  }
+
+  .details-right {
+    width: 35%;
+  }
+
+  .recycle-panel-section-1,
+  .disposal-panel-section-1,
+  .resell-panel-section-1 {
+    width: 60%;
+    height: 40%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid grey;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 100px;
+  }
+
+  .content-container {
+    height: 800px;
+    width: 100%;
+  }
+
+  .footer-wrapper {
+    display: flex;
+    background-color: rgb(234, 239, 242);
+    height: 300px;
+    justify-content: space-evenly;
+  }
+
+  .footer {
+    height: 400px;
+    width: 100%;
+  }
+
+  .footer-final {
+    height: 100px;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgb(54, 58, 69);
+  }
+
+  .company-logo-2 {
+    height: 20%;
+  }
+
+  .fa-facebook {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(59, 89, 152);
+  }
+
+  .fa-instagram {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(18, 86, 136);
+  }
+
+  .fa-twitter {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(85, 172, 238);
+  }
+
+  .footer-second-column a,
+  .footer-third-column a,
+  .footer-fourth-column a {
+    text-decoration: none;
+  }
+
+  .terms {
+    color: white;
+    text-decoration: none;
+  }
+
+  .google-play {
+    height: 80px;
+  }
+
+  .apple-store {
+    height: 52px;
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .video-text-box {
+    font-size: 15px;
+  }
+
+  .video-container {
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .video-text-box {
+    position: absolute;
+    top: 80%;
+    padding-left: max(78px, 48px);
+    color: white;
+  }
+
+  .recycle-button-landing,
+  .disposal-button-landing,
+  .re-sell-button-landing {
+    width: 15%;
+    padding: 10px;
+    border-radius: 5px;
+    font: inherit;
+    /* margin auto first to center horizontally */
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: white;
+    background: #060b23;
+  }
+
+  .section-1 {
+    width: 60%;
+    height: 40%;
+    margin: auto;
+    border-bottom: solid grey;
+  }
+
+  .recycle-icon,
+  .resell-icon {
+    height: 200px;
+  }
+
+  .bin-icon {
+    height: 220px;
+  }
+
+  .details-right {
+    width: 35%;
+  }
+
+  .recycle-panel-section-1,
+  .disposal-panel-section-1,
+  .resell-panel-section-1 {
+    width: 60%;
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid grey;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 100px;
+  }
+
+  .content-container {
+    height: 1000px;
+    width: 100%;
+  }
+
+  .footer-wrapper {
+    display: flex;
+    background-color: rgb(234, 239, 242);
+    height: 300px;
+    justify-content: space-evenly;
+  }
+
+  .footer {
+    height: 400px;
+    width: 100%;
+  }
+
+  .footer-final {
+    height: 100px;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgb(54, 58, 69);
+  }
+
+  .company-logo-2 {
+    height: 20%;
+  }
+
+  .fa-facebook {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(59, 89, 152);
+  }
+
+  .fa-instagram {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(18, 86, 136);
+  }
+
+  .fa-twitter {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(85, 172, 238);
+  }
+
+  .footer-second-column a,
+  .footer-third-column a,
+  .footer-fourth-column a {
+    text-decoration: none;
+  }
+
+  .terms {
+    color: white;
+    text-decoration: none;
+  }
+
+  .google-play {
+    height: 80px;
+  }
+
+  .apple-store {
+    height: 52px;
+    margin-bottom: 15px;
   }
 }
 
@@ -177,7 +582,7 @@ body {
   }
 
   .video-container {
-    height: 600px;
+    height: 650px;
     overflow: hidden;
     position: relative;
   }
@@ -188,39 +593,125 @@ body {
     padding-left: max(78px, 48px);
     color: white;
   }
-}
 
-.content-container {
-  height: 1000px;
-  width: 100%;
-}
+  .recycle-button-landing,
+  .disposal-button-landing,
+  .re-sell-button-landing {
+    width: 15%;
+    padding: 10px;
+    border-radius: 5px;
+    font: inherit;
+    /* margin auto first to center horizontally */
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: white;
+    background: #060b23;
+  }
 
-.section-1 {
-  width: 60%;
-  height: 40%;
-  margin: auto;
-  border-bottom: solid grey;
-}
+  .section-1 {
+    width: 60%;
+    height: 40%;
+    margin: auto;
+    border-bottom: solid grey;
+  }
 
-.info {
-  padding-top: 80px;
-  padding-bottom: 50px;
-  width: 50%;
-}
+  .recycle-icon,
+  .resell-icon {
+    height: 200px;
+  }
 
-.recycle-button-landing,
-.disposal-button-landing,
-.re-sell-button-landing {
-  width: 15%;
-  padding: 10px;
-  border-radius: 5px;
-  font: inherit;
-  /* margin auto first to center horizontally */
-  margin: auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  color: white;
-  background: #060b23;
+  .bin-icon {
+    height: 220px;
+  }
+
+  .details-right {
+    width: 35%;
+  }
+
+  .recycle-panel-section-1,
+  .disposal-panel-section-1,
+  .resell-panel-section-1 {
+    width: 60%;
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid grey;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 100px;
+  }
+
+  .content-container {
+    height: 1000px;
+    width: 100%;
+  }
+
+  .footer-wrapper {
+    display: flex;
+    background-color: rgb(234, 239, 242);
+    height: 300px;
+    justify-content: space-evenly;
+  }
+
+  .footer {
+    height: 400px;
+    width: 100%;
+  }
+
+  .footer-final {
+    height: 100px;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgb(54, 58, 69);
+  }
+
+  .company-logo-2 {
+    height: 20%;
+  }
+
+  .fa-facebook {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(59, 89, 152);
+  }
+
+  .fa-instagram {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(18, 86, 136);
+  }
+
+  .fa-twitter {
+    width: 15px;
+    text-align: center;
+    color: white;
+    background: rgb(85, 172, 238);
+  }
+
+  .footer-second-column a,
+  .footer-third-column a,
+  .footer-fourth-column a {
+    text-decoration: none;
+  }
+
+  .terms {
+    color: white;
+    text-decoration: none;
+  }
+
+  .google-play {
+    height: 80px;
+  }
+
+  .apple-store {
+    height: 52px;
+    margin-bottom: 15px;
+  }
 }
 
 .disposal-panel {
@@ -229,98 +720,6 @@ body {
 
 .resell-panel {
   display: none;
-}
-
-.details-right {
-  width: 35%;
-}
-
-.recycle-panel-section-1,
-.disposal-panel-section-1,
-.resell-panel-section-1 {
-  width: 60%;
-  height: 30%;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: solid grey;
-  margin: auto;
-  padding-top: 20px;
-  padding-bottom: 100px;
-}
-
-.recycle-icon,
-.resell-icon {
-  height: 200px;
-}
-
-.bin-icon {
-  height: 220px;
-}
-
-.footer {
-  height: 400px;
-  width: 100%;
-}
-
-.footer-wrapper {
-  display: flex;
-  background-color: rgb(234, 239, 242);
-  height: 300px;
-  justify-content: space-evenly;
-}
-
-.footer-final {
-  height: 100px;
-  color: white;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background: rgb(54, 58, 69);
-}
-
-.company-logo-2 {
-  height: 20%;
-}
-
-.fa-facebook {
-  width: 15px;
-  text-align: center;
-  color: white;
-  background: rgb(59, 89, 152);
-}
-
-.fa-instagram {
-  width: 15px;
-  text-align: center;
-  color: white;
-  background: rgb(18, 86, 136);
-}
-
-.fa-twitter {
-  width: 15px;
-  text-align: center;
-  color: white;
-  background: rgb(85, 172, 238);
-}
-
-.footer-second-column a,
-.footer-third-column a,
-.footer-fourth-column a {
-  text-decoration: none;
-}
-
-.terms {
-  color: white;
-  text-decoration: none;
-}
-
-.google-play {
-  height: 80px;
-}
-
-.apple-store {
-  height: 52px;
-  margin-bottom: 15px;
 }
 
 /* signup form css */
