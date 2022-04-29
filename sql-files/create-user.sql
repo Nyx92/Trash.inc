@@ -10,4 +10,5 @@ CREATE TABLE IF NOT EXISTS users (
   unit TEXT,
   postal TEXT, 
   password TEXT);
+  
 
